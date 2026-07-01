@@ -1,254 +1,585 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>30-Day Elite Trading Mastery Academy | Smarter Hustle Academy</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #16241D; }
-    input, select, textarea { outline: none; font-family: inherit; }
-    button { cursor: pointer; border: none; font-family: inherit; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #1a1a1a; }
-    ::-webkit-scrollbar-thumb { background: #2D6A4F; border-radius: 3px; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>30-Day Elite Trading Mastery Academy | Smarter Hustle Academy™</title>
+<meta name="description" content="36-lesson interactive trading course with built-in charts, position calculator, trading journal, and AI automation module."/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#2D6A4F;--g2:#1a3d2b;--go:#D4A017;--dark:#16241D;
+  --red:#ef4444;--green:#10b981;--blue:#3b82f6;--purple:#7c3aed;
+  --gray:#6b7280;--light:#f9fafb;--white:#fff;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--dark);color:#f9fafb;min-height:100vh;font-size:15px;line-height:1.6}
+button{cursor:pointer;font-family:inherit;border:none}
+a{text-decoration:none;color:inherit}
+input,select,textarea{font-family:inherit;outline:none}
+
+/* NAV */
+.nav{background:#0d1f16;border-bottom:2px solid var(--g);display:flex;align-items:stretch;position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-brand{display:flex;align-items:center;gap:8px;padding:0 16px;border-right:1px solid #1a3d2b;flex-shrink:0;min-height:52px}
+.nav-logo{width:32px;height:32px;background:linear-gradient(135deg,var(--g),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff}
+.nav-name{color:var(--go);font-weight:700;font-size:13px;white-space:nowrap}
+.nav-tabs{display:flex;align-items:stretch}
+.nav-tab{background:none;border:none;color:#8a9080;padding:0 14px;font-size:13px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;transition:.2s;min-height:52px}
+.nav-tab:hover{color:#fff}
+.nav-tab.active{color:var(--green);border-bottom-color:var(--green)}
+
+/* LAYOUT */
+.page{display:none;animation:fadeIn .3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.container{max-width:800px;margin:0 auto;padding:28px 16px 80px}
+
+/* CARDS */
+.card{background:#1a2a1e;border:1px solid #2d4a35;border-radius:12px;padding:20px;margin-bottom:14px}
+.card-gold{border-color:var(--go);background:#1a1500}
+.card-green{border-color:var(--g);background:#0d2b1e}
+.card-blue{border-color:var(--blue);background:#0a1628}
+.card-red{border-color:var(--red);background:#1f0a0a}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:10px;font-weight:700;font-size:15px;transition:.2s;border:none;cursor:pointer}
+.btn-green{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff}
+.btn-green:hover{opacity:.9;transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(135deg,var(--go),#b88914);color:#16241D}
+.btn-gold:hover{opacity:.9;transform:translateY(-1px)}
+.btn-outline{background:none;border:2px solid var(--g);color:var(--green)}
+.btn-dark{background:#2a2a2a;color:#fff}
+.btn-sm{padding:8px 16px;font-size:13px}
+
+/* PROGRESS */
+.progress-bar{background:#2a2a2a;border-radius:99px;height:12px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--green));border-radius:99px;transition:width .5s}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+/* STAT CARDS */
+.stat{background:#1a2a1e;border:1px solid #2d4a35;border-radius:12px;padding:16px;text-align:center}
+.stat-val{font-size:32px;font-weight:800;color:var(--go)}
+.stat-label{font-size:12px;color:#8a9080;margin-top:4px}
+
+/* WEEK CARDS */
+.week-card{border-radius:14px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:.2s;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.week-card:hover{transform:translateY(-2px)}
+.week-header{padding:20px 22px;display:flex;justify-content:space-between;align-items:center}
+.week-num{font-size:48px;font-weight:900;opacity:.2}
+.week-progress{height:5px;background:rgba(0,0,0,.3)}
+.week-progress-fill{height:100%;background:var(--go);transition:width .5s}
+
+/* LESSON ITEMS */
+.lesson-item{background:#1a2a1e;border:1px solid #2d4a35;border-radius:12px;margin-bottom:10px;overflow:hidden;cursor:pointer;transition:.2s}
+.lesson-item:hover{border-color:var(--g)}
+.lesson-header{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.lesson-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.lesson-num.done{background:var(--g);color:#fff}
+.lesson-num.pending{background:#2a2a2a;color:#8a9080}
+.lesson-title{font-weight:700;color:#f9fafb;font-size:15px}
+.lesson-tag{font-size:12px;color:#8a9080;margin-top:2px}
+.lesson-body{padding:0 18px 18px;display:none}
+.lesson-body.open{display:block}
+
+/* SECTION HEADINGS */
+.section-title{font-size:22px;font-weight:800;color:#f9fafb;margin-bottom:6px;padding-bottom:8px;border-bottom:3px solid var(--g)}
+.section-sub{color:#8a9080;font-size:14px;margin-bottom:20px;margin-top:6px}
+.kicker{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--go);text-transform:uppercase;margin-bottom:8px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0a1f0e,#0d2b18,#112916);padding:48px 22px 52px;text-align:center;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(26px,5vw,44px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:14px}
+.hero p{font-size:16px;color:#b0c8b4;max-width:520px;margin:0 auto 26px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.badge{display:inline-block;background:var(--go);color:#16241D;font-size:11px;font-weight:700;border-radius:6px;padding:4px 12px;margin-bottom:14px}
+
+/* CHECKLIST */
+.check-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#1a2a1e;border:1px solid #2d4a35;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:.2s}
+.check-item:hover{border-color:var(--g)}
+.check-item.checked{background:#0d2b1e;border-color:var(--g)}
+.check-box{width:26px;height:26px;border:2px solid #2d4a35;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
+.check-item.checked .check-box{background:var(--g);border-color:var(--g);color:#fff;font-size:14px}
+.check-label{font-size:14px;color:#e5e7eb;flex:1}
+.check-item.checked .check-label{text-decoration:line-through;color:#8a9080}
+.check-tag{font-size:11px;color:#8a9080;background:#2a2a2a;padding:2px 8px;border-radius:10px;white-space:nowrap}
+
+/* CALCULATOR */
+.calc-input{width:100%;background:#2a2a2a;border:1px solid #3a4a35;border-radius:10px;padding:12px 16px;color:#fff;font-size:18px;font-weight:700;margin-bottom:4px}
+.calc-input:focus{border-color:var(--g)}
+.calc-label{font-size:12px;color:#8a9080;margin-bottom:6px;display:block}
+.calc-result{border-radius:12px;padding:16px;text-align:center}
+.calc-result-val{font-size:36px;font-weight:800}
+.calc-result-label{font-size:12px;margin-top:4px;opacity:.8}
+
+/* JOURNAL TABLE */
+.trade-row{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#1a2a1e;border:1px solid #2d4a35;border-radius:10px;margin-bottom:8px;flex-wrap:wrap}
+.trade-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-long{background:#0d2b1e;color:var(--green)}
+.badge-short{background:#2d0d0d;color:var(--red)}
+.badge-win{background:#0d2b1e;color:var(--green)}
+.badge-loss{background:#2d0d0d;color:var(--red)}
+.badge-open{background:#1a1f2d;color:var(--blue)}
+.badge-be{background:#2a2a2a;color:#9ca3af}
+
+/* DIAGRAM BOXES */
+.diagram{background:#111;border-radius:12px;padding:16px;margin:14px 0;overflow-x:auto}
+
+/* KEY POINT */
+.key-point{display:flex;gap:10px;margin-bottom:10px}
+.key-dot{color:var(--green);font-size:18px;flex-shrink:0;margin-top:-1px}
+.key-text{font-size:14px;color:#e5e7eb;line-height:1.65}
+
+/* PRACTICE BOX */
+.practice{background:#0d2b1e;border-left:4px solid var(--g);border-radius:0 10px 10px 0;padding:16px;margin:12px 0}
+.practice-title{color:var(--green);font-weight:700;margin-bottom:6px;font-size:14px}
+.practice-text{font-size:13px;color:#a7f3d0;line-height:1.7}
+
+/* VIDEO LINKS */
+.video-link{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #1a2a1e;font-size:13px;color:#93c5fd}
+.video-link:last-child{border-bottom:none}
+
+/* CHECKLIST PAGE */
+.go-live-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#1a2a1e;border:1px solid #2d4a35;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:.2s}
+.go-live-item:hover{border-color:var(--g)}
+.go-live-item.live-checked{background:#0d2b1e;border-color:var(--g)}
+
+/* FOOTER */
+.footer-note{text-align:center;color:#374151;font-size:11px;padding:24px 0}
+</style>
 </head>
 <body>
-  <div id="root"></div>
 
-<script type="text/babel">
-const SHA_GREEN = "#2D6A4F";
-const SHA_GOLD  = "#D4A017";
-const SHA_DARK  = "#16241D";
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">SHA</div>
+    <div class="nav-name">Trading Academy™</div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('dashboard')">🏠 Dashboard</button>
+    <button class="nav-tab" onclick="showPage('week1')">Week 1</button>
+    <button class="nav-tab" onclick="showPage('week2')">Week 2</button>
+    <button class="nav-tab" onclick="showPage('week3')">Week 3</button>
+    <button class="nav-tab" onclick="showPage('week4')">Week 4</button>
+    <button class="nav-tab" onclick="showPage('aimodule')">🤖 AI Module</button>
+    <button class="nav-tab" onclick="showPage('calculator')">🧮 Calculator</button>
+    <button class="nav-tab" onclick="showPage('journal')">📝 Journal</button>
+    <button class="nav-tab" onclick="showPage('checklist')">✅ Go-Live</button>
+  </div>
+</nav>
 
-const Candle = ({ open, close, high, low, x, w = 10 }) => {
-  const bull  = close < open;
-  const c     = bull ? "#10b981" : "#ef4444";
-  const top   = Math.min(open, close);
-  const ht    = Math.abs(open - close) || 2;
-  return (
-    <g>
-      <line x1={x} y1={high} x2={x} y2={low} stroke={c} strokeWidth="1.5" />
-      <rect x={x - w / 2} y={top} width={w} height={ht} fill={c} />
-    </g>
-  );
+<!-- DASHBOARD -->
+<div id="dashboard" class="page active">
+  <div class="hero">
+    <div class="badge">SMARTER HUSTLE ACADEMY™</div>
+    <h1>30-Day Elite Trading<br><span style="color:#40B081">Mastery Academy</span></h1>
+    <p>Complete foundation-to-advanced trading education + Bonus AI & Automation module. 36 lessons. Built-in tools. No live calls required.</p>
+    <div class="hero-actions">
+      <button class="btn btn-green" onclick="showPage('week1')">▶ Start Week 1</button>
+      <button class="btn btn-gold" onclick="showPage('calculator')">🧮 Position Calculator</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card card-green" style="margin-top:0">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-weight:700;color:#fff">Overall Progress</span>
+        <span id="progress-text" style="color:var(--go);font-weight:700">0 / 36</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="main-progress" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="stat"><div class="stat-val">36</div><div class="stat-label">Total Lessons</div></div>
+      <div class="stat"><div class="stat-val" id="dash-completed">0</div><div class="stat-label">Completed</div></div>
+      <div class="stat"><div class="stat-val" id="dash-trades">0</div><div class="stat-label">Trades Logged</div></div>
+      <div class="stat"><div class="stat-val" id="dash-winrate">0%</div><div class="stat-label">Win Rate</div></div>
+    </div>
+
+    <div class="section-title">Your Weeks</div>
+    <div style="margin-top:14px">
+      <div class="week-card" onclick="showPage('week1')" style="background:linear-gradient(135deg,#2D6A4F,#1a3d2b)">
+        <div class="week-header">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6);margin-bottom:4px">WEEK 1</div>
+            <div style="font-size:20px;font-weight:800;color:#fff">Foundation & Market Setup</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:2px" id="w1-status">7 lessons</div>
+          </div>
+          <div class="week-num">1</div>
+        </div>
+        <div class="week-progress"><div class="week-progress-fill" id="w1-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="week-card" onclick="showPage('week2')" style="background:linear-gradient(135deg,#1e40af,#1e3a8a)">
+        <div class="week-header">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6);margin-bottom:4px">WEEK 2</div>
+            <div style="font-size:20px;font-weight:800;color:#fff">Technical Analysis Mastery</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:2px" id="w2-status">7 lessons</div>
+          </div>
+          <div class="week-num">2</div>
+        </div>
+        <div class="week-progress"><div class="week-progress-fill" id="w2-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="week-card" onclick="showPage('week3')" style="background:linear-gradient(135deg,#6d28d9,#4c1d95)">
+        <div class="week-header">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6);margin-bottom:4px">WEEK 3</div>
+            <div style="font-size:20px;font-weight:800;color:#fff">Strategy & Execution</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:2px" id="w3-status">7 lessons</div>
+          </div>
+          <div class="week-num">3</div>
+        </div>
+        <div class="week-progress"><div class="week-progress-fill" id="w3-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="week-card" onclick="showPage('week4')" style="background:linear-gradient(135deg,#b45309,#92400e)">
+        <div class="week-header">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6);margin-bottom:4px">WEEK 4</div>
+            <div style="font-size:20px;font-weight:800;color:#fff">Options & Forex</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:2px" id="w4-status">9 lessons</div>
+          </div>
+          <div class="week-num">4</div>
+        </div>
+        <div class="week-progress"><div class="week-progress-fill" id="w4-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="week-card" onclick="showPage('aimodule')" style="background:linear-gradient(135deg,#0e7490,#0c5a70)">
+        <div class="week-header">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6);margin-bottom:4px">BONUS MODULE</div>
+            <div style="font-size:20px;font-weight:800;color:#fff">AI-Powered Trading & Automation</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:2px" id="w5-status">6 lessons</div>
+          </div>
+          <div class="week-num">🤖</div>
+        </div>
+        <div class="week-progress"><div class="week-progress-fill" id="w5-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="card card-red" style="margin-top:8px">
+      <div style="font-size:16px;font-weight:800;color:var(--red);margin-bottom:14px">⚠️ Trading Truths — Never Forget</div>
+      <div class="grid-2">
+        <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px">
+          <div style="color:var(--go);font-weight:700;margin-bottom:5px;font-size:14px">You WILL Lose Money</div>
+          <div style="font-size:13px;color:#9ca3af;line-height:1.7">90% of beginners fail. Focus on surviving first, not getting rich.</div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px">
+          <div style="color:var(--go);font-weight:700;margin-bottom:5px;font-size:14px">Risk 1-2% Per Trade</div>
+          <div style="font-size:13px;color:#9ca3af;line-height:1.7">Never more. This single rule keeps you in the game long enough to learn.</div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px">
+          <div style="color:var(--go);font-weight:700;margin-bottom:5px;font-size:14px">50+ Paper Trades First</div>
+          <div style="font-size:13px;color:#9ca3af;line-height:1.7">No real money until the go-live checklist is complete. No exceptions.</div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px">
+          <div style="color:var(--go);font-weight:700;margin-bottom:5px;font-size:14px">Best Trade = No Trade</div>
+          <div style="font-size:13px;color:#9ca3af;line-height:1.7">Patience is a position. Quality A+ setups beat quantity of B- trades.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">© 2024 Smarter Hustle Academy™ · Educational Purposes Only</div>
+  </div>
+</div>
+
+<!-- WEEK 1 -->
+<div id="week1" class="page">
+  <div style="background:linear-gradient(135deg,#2D6A4F,#1a3d2b);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6)">WEEK 1</div>
+    <div style="font-size:26px;font-weight:800;color:#fff;margin-top:4px">Foundation & Market Setup</div>
+  </div>
+  <div class="container">
+    <div id="w1-lessons"></div>
+  </div>
+</div>
+
+<!-- WEEK 2 -->
+<div id="week2" class="page">
+  <div style="background:linear-gradient(135deg,#1e40af,#1e3a8a);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6)">WEEK 2</div>
+    <div style="font-size:26px;font-weight:800;color:#fff;margin-top:4px">Technical Analysis Mastery</div>
+  </div>
+  <div class="container">
+    <div id="w2-lessons"></div>
+  </div>
+</div>
+
+<!-- WEEK 3 -->
+<div id="week3" class="page">
+  <div style="background:linear-gradient(135deg,#6d28d9,#4c1d95);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6)">WEEK 3</div>
+    <div style="font-size:26px;font-weight:800;color:#fff;margin-top:4px">Strategy, Execution & Paper Trading</div>
+  </div>
+  <div class="container">
+    <div id="w3-lessons"></div>
+  </div>
+</div>
+
+<!-- WEEK 4 -->
+<div id="week4" class="page">
+  <div style="background:linear-gradient(135deg,#b45309,#92400e);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6)">WEEK 4</div>
+    <div style="font-size:26px;font-weight:800;color:#fff;margin-top:4px">Advanced Markets — Options & Forex</div>
+  </div>
+  <div class="container">
+    <div id="w4-lessons"></div>
+  </div>
+</div>
+
+<!-- AI MODULE -->
+<div id="aimodule" class="page">
+  <div style="background:linear-gradient(135deg,#0e7490,#0c5a70);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.6)">BONUS MODULE</div>
+    <div style="font-size:26px;font-weight:800;color:#fff;margin-top:4px">AI-Powered Trading & Automation</div>
+  </div>
+  <div class="container">
+    <div id="w5-lessons"></div>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div id="calculator" class="page">
+  <div style="background:linear-gradient(135deg,#1e40af,#6d28d9);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:26px;font-weight:800;color:#fff">🧮 Position Size Calculator</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.7);margin-top:4px">Never risk more than you can afford to lose</div>
+  </div>
+  <div class="container">
+    <div class="card card-blue" style="margin-top:0;text-align:center;padding:16px">
+      <div style="font-family:monospace;color:var(--go);font-size:14px">Position Size = (Account × Risk%) ÷ (Entry − Stop)</div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card">
+          <div style="font-weight:700;color:#fff;margin-bottom:16px;font-size:16px">Trade Parameters</div>
+          <label class="calc-label">Account Size ($)</label>
+          <input class="calc-input" type="number" id="c-acct" value="10000" oninput="calcUpdate()">
+          <label class="calc-label" style="margin-top:10px">Risk Per Trade (%)</label>
+          <input class="calc-input" type="number" id="c-risk" value="1" step="0.1" oninput="calcUpdate()">
+          <div style="font-size:12px;color:#8a9080;margin-bottom:10px">Recommended: 1–2%</div>
+          <label class="calc-label">Entry Price ($)</label>
+          <input class="calc-input" type="number" id="c-entry" value="150" step="0.01" oninput="calcUpdate()">
+          <label class="calc-label" style="margin-top:10px">Stop Loss ($)</label>
+          <input class="calc-input" type="number" id="c-stop" value="148" step="0.01" oninput="calcUpdate()">
+          <label class="calc-label" style="margin-top:10px">Target Price ($)</label>
+          <input class="calc-input" type="number" id="c-target" value="154" step="0.01" oninput="calcUpdate()">
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="calc-result" style="background:#0d2b1e;border:2px solid var(--green);border-radius:12px;padding:20px">
+          <div style="font-size:12px;color:var(--green);margin-bottom:6px">Position Size</div>
+          <div class="calc-result-val" style="color:var(--green)" id="r-shares">50</div>
+          <div style="font-size:12px;color:#8a9080;margin-top:4px">shares to buy</div>
+        </div>
+        <div class="calc-result" style="background:#0a1628;border:2px solid var(--blue);border-radius:12px;padding:20px">
+          <div style="font-size:12px;color:var(--blue);margin-bottom:6px">Risk-Reward Ratio</div>
+          <div class="calc-result-val" style="color:var(--blue)" id="r-rr">1:2.00</div>
+          <div style="font-size:12px;color:#8a9080;margin-top:4px" id="r-rr-note">✓ Good ratio</div>
+        </div>
+        <div class="calc-result" style="background:#2d0d0d;border:2px solid var(--red);border-radius:12px;padding:20px">
+          <div style="font-size:12px;color:var(--red);margin-bottom:6px">Maximum Loss</div>
+          <div class="calc-result-val" style="color:var(--red)" id="r-loss">$100</div>
+          <div style="font-size:12px;color:#8a9080;margin-top:4px" id="r-loss-pct">1% of account</div>
+        </div>
+        <div class="calc-result" style="background:#1a1500;border:2px solid var(--go);border-radius:12px;padding:20px">
+          <div style="font-size:12px;color:var(--go);margin-bottom:6px">Potential Profit</div>
+          <div class="calc-result-val" style="color:var(--go)" id="r-profit">$200</div>
+          <div style="font-size:12px;color:#8a9080;margin-top:4px">if target reached</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-red" style="margin-top:4px">
+      <div style="font-weight:700;color:var(--red);margin-bottom:8px">⚠️ Never Break These Rules</div>
+      <div style="font-size:13px;color:#fca5a5;line-height:1.8">
+        • Never risk more than 2% per trade<br>
+        • If stop loss is too far = skip the trade<br>
+        • Never remove your stop loss to buy more<br>
+        • Hard stops only — mental stops don't work
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JOURNAL -->
+<div id="journal" class="page">
+  <div style="background:linear-gradient(135deg,#4c1d95,#6d28d9);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:26px;font-weight:800;color:#fff">📝 Trading Journal</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.7);margin-top:4px">Track every trade. Review weekly. Improve constantly.</div>
+  </div>
+  <div class="container">
+    <!-- Stats -->
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="stat"><div class="stat-val" id="j-total">0</div><div class="stat-label">Total Trades</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--green)" id="j-wins">0</div><div class="stat-label">Wins</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--red)" id="j-losses">0</div><div class="stat-label">Losses</div></div>
+      <div class="stat"><div class="stat-val" id="j-wr">0%</div><div class="stat-label">Win Rate</div></div>
+    </div>
+    <div class="card" style="text-align:center;margin-bottom:20px">
+      <div style="font-size:13px;color:#8a9080;margin-bottom:6px">Total Net P&L</div>
+      <div style="font-size:44px;font-weight:800" id="j-pnl">$0.00</div>
+    </div>
+
+    <!-- Add Trade Form -->
+    <div class="card">
+      <div style="font-weight:700;color:#fff;margin-bottom:16px;font-size:16px">Log New Trade</div>
+      <div class="grid-2">
+        <div>
+          <label class="calc-label">Date</label>
+          <input class="calc-input" type="date" id="j-date" style="font-size:15px;padding:10px 14px">
+        </div>
+        <div>
+          <label class="calc-label">Asset (Ticker)</label>
+          <input class="calc-input" type="text" id="j-asset" placeholder="AAPL, EURUSD..." style="font-size:15px;padding:10px 14px">
+        </div>
+        <div>
+          <label class="calc-label">Direction</label>
+          <select class="calc-input" id="j-dir" style="font-size:15px;padding:10px 14px">
+            <option value="long">Long (Buy)</option>
+            <option value="short">Short (Sell)</option>
+          </select>
+        </div>
+        <div>
+          <label class="calc-label">Result</label>
+          <select class="calc-input" id="j-result" style="font-size:15px;padding:10px 14px">
+            <option value="open">Open</option>
+            <option value="win">Win</option>
+            <option value="loss">Loss</option>
+            <option value="be">Breakeven</option>
+          </select>
+        </div>
+        <div>
+          <label class="calc-label">Entry Price ($)</label>
+          <input class="calc-input" type="number" id="j-entry" placeholder="150.00" step="0.01" style="font-size:15px;padding:10px 14px">
+        </div>
+        <div>
+          <label class="calc-label">Stop Loss ($)</label>
+          <input class="calc-input" type="number" id="j-stop" placeholder="148.00" step="0.01" style="font-size:15px;padding:10px 14px">
+        </div>
+        <div>
+          <label class="calc-label">Target ($)</label>
+          <input class="calc-input" type="number" id="j-target" placeholder="154.00" step="0.01" style="font-size:15px;padding:10px 14px">
+        </div>
+        <div>
+          <label class="calc-label">P&L ($) — leave blank if open</label>
+          <input class="calc-input" type="number" id="j-pnl-input" placeholder="200 or -100" step="0.01" style="font-size:15px;padding:10px 14px">
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <label class="calc-label">Notes & Lessons Learned</label>
+        <textarea class="calc-input" id="j-notes" rows="3" placeholder="Why did you take this trade? Setup? Emotions? What did you learn?" style="font-size:14px;padding:10px 14px;resize:vertical"></textarea>
+      </div>
+      <button class="btn btn-green" style="width:100%;margin-top:14px;font-size:15px" onclick="addTrade()">+ Add Trade to Journal</button>
+    </div>
+
+    <!-- Trade List -->
+    <div class="section-title" style="margin-top:20px">Trade History</div>
+    <div id="j-trades" style="margin-top:14px">
+      <div style="text-align:center;padding:40px;color:#8a9080">
+        <div style="font-size:40px;margin-bottom:10px">📝</div>
+        <div>No trades logged yet. Start journaling every trade!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GO-LIVE CHECKLIST -->
+<div id="checklist" class="page">
+  <div style="background:linear-gradient(135deg,#4c1d95,#1e40af);padding:24px 20px">
+    <button onclick="showPage('dashboard')" style="background:none;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:12px">← Dashboard</button>
+    <div style="font-size:26px;font-weight:800;color:#fff">✅ Go-Live Readiness Checklist</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.7);margin-top:4px">All items required before trading real money.</div>
+  </div>
+  <div class="container">
+    <div class="card card-green" style="margin-top:0">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-weight:700;color:#fff">Readiness</span>
+        <span id="gl-text" style="color:var(--go);font-weight:700">0 / 12</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="gl-bar" style="width:0%"></div></div>
+    </div>
+    <div id="gl-items" style="margin-top:4px"></div>
+    <div class="card card-red" style="margin-top:16px">
+      <div style="color:var(--red);font-weight:700;margin-bottom:8px">⚠️ Critical Warning</div>
+      <div style="color:#fca5a5;font-size:14px;line-height:1.8">The market will always be open tomorrow. There is no prize for rushing. Traders who go live too early blow up their accounts. Paper trade until ALL boxes are checked.</div>
+    </div>
+    <div id="gl-ready" style="display:none" class="card" style="background:#0d2b1e;border:2px solid var(--green);margin-top:14px;text-align:center">
+      <div style="font-size:28px;margin-bottom:8px">🎉</div>
+      <div style="font-weight:800;color:var(--green);font-size:18px">You are ready to go live!</div>
+      <div style="color:#a7f3d0;font-size:14px;margin-top:6px">Start with 10-20% of your calculated position sizes. Grow slowly.</div>
+    </div>
+    <div class="footer-note">© 2024 Smarter Hustle Academy™ · Educational Purposes Only</div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+var curriculum = {
+  w1:[
+    {id:1,title:"How Markets Actually Work",tag:"Video + Reading",points:["Stock market = ownership in companies. NYSE/NASDAQ. 9:30 AM–4 PM EST.","Forex market = currency pairs. Decentralized. Runs 24/5.","Options = contracts giving the right (not obligation) to buy/sell.","Market participants: retail traders, institutions, market makers.","Trading vs investing: trading profits from short moves; investing builds long-term wealth."],practice:"Open TradingView.com (free). Look at SPY (stocks), EUR/USD (forex), and AAPL options chain. Spend 20 minutes exploring each. Write 3 observations about how they differ.",videos:["How Stock Markets Work — Khan Academy","Forex Market Explained — Babypips.com"]},
+    {id:2,title:"Choosing Your Broker",tag:"Practical Setup",points:["Stocks/Options: TD Ameritrade (Thinkorswim), Fidelity, Interactive Brokers, Webull.","Forex: OANDA, Forex.com, Interactive Brokers — verify NFA/CFTC regulation.","Check: commissions, platform speed, charting tools, margin requirements.","Paper trading (demo) accounts let you practice without real money — mandatory first.","Never skip regulation check. Unregulated brokers can disappear with your funds."],practice:"Open a free demo account on Thinkorswim AND OANDA. Place 3 paper trades on each. Compare execution speed and charting features.",videos:["Best Brokers for Beginners — Investopedia","Thinkorswim Demo Tutorial — YouTube"]},
+    {id:3,title:"Trading Psychology",tag:"Mindset",points:["The 90-90-90 Rule: 90% of traders lose 90% of their money in 90 days.","FOMO causes impulsive entries — the market's most expensive emotion.","Revenge trading: losing → emotional trade to recover → bigger loss. Never do this.","Loss aversion: humans feel losses 2× more than equivalent gains.","Solution: Pre-plan every trade. Rules over feelings. Always."],practice:"Write in a journal: (1) Why do you want to trade? (2) What is your realistic monthly goal? (3) How will you react to 5 losses in a row? (4) What are YOUR emotional triggers?",videos:["Trading in the Zone Summary — Mark Douglas","Why Traders Fail — SMB Capital"]},
+    {id:4,title:"Risk Management — The 1-2% Rule",tag:"Critical Skill",points:["The Rule: Never risk more than 1-2% of your account on any single trade.","Formula: Position Size = (Account × Risk%) ÷ (Entry − Stop Loss)","Example: $10,000 × 1% = $100 max loss. Entry $150, Stop $148 = $2 risk. Buy 50 shares.","Risk-Reward minimum: 1:2. Risk $100 to make $200. Profitable at 40% win rate.","Hard stops only. Mental stops don't work. Use the calculator on every trade."],practice:"Use the Calculator tab. Calculate position sizes for 10 different scenarios. Vary account size, risk %, and stop distances.",videos:["Position Sizing Explained — Rayner Teo","Risk Management Rules — SMB Capital"]},
+    {id:5,title:"Chart Types & Timeframes",tag:"Technical Basics",points:["Line chart: closes only. Good for macro trend view.","Bar (OHLC) chart: open, high, low, close. More data than line.","Candlestick chart: most popular. Visual, intuitive, shows sentiment.","Day traders: 1-min, 5-min, 15-min. Swing traders: 1-hr, 4-hr, daily.","Multi-timeframe rule: Higher TF = trend. Entry TF = setup. Lower TF = precise entry."],practice:"On TradingView: open SPY. Switch between 5-min, 15-min, 1-hr, daily, weekly. Write: Is the trend the same on all timeframes? Where do they conflict?",videos:["Chart Types Explained — Investopedia Academy","Multi-Timeframe Analysis — Rayner Teo"]},
+    {id:6,title:"Candlestick Patterns Part 1",tag:"Pattern Recognition",points:["Doji: Open ≈ Close. Long wicks both sides. Indecision — potential reversal.","Hammer: Small body at top, long lower wick. Buyers rejected sellers. Bullish at bottom.","Shooting Star: Small body at bottom, long upper wick. Sellers rejected buyers. Bearish at top.","Marubozu: Full body, no wicks. Complete domination by buyers (green) or sellers (red).","CONTEXT IS EVERYTHING. A hammer at support = powerful. A hammer mid-chart = meaningless."],practice:"Open historical chart of AAPL (6-month daily). Identify 10 hammers, 5 shooting stars, 5 dojis. Mark them. Write what happened in the next 3 candles each time.",videos:["Candlestick Patterns — Steve Nison","Candlestick Mastery — Rayner Teo"]},
+    {id:7,title:"Week 1 Assessment",tag:"Assessment",points:["Can you explain all 3 market types without notes?","Do you have 2+ demo accounts active with paper trades?","Can you calculate position size in under 60 seconds?","Have you identified 5+ candlestick patterns on real charts?","Have you written your trading psychology journal?"],practice:"Self-quiz: Write the position size formula, name 4 candlestick patterns, name 3 brokers, define risk-reward ratio. Grade yourself. Re-read anything below 80%.",videos:["Week 1 Recap — review your notes from each day"]}
+  ],
+  w2:[
+    {id:8,title:"Support & Resistance",tag:"Technical Analysis",points:["Support = price floor where buyers step in. 2+ bounces = confirmed.","Resistance = price ceiling where sellers step in. 2+ rejections = confirmed.","The more times a level is tested, the stronger it is.","Role reversal: broken support becomes new resistance.","Round numbers ($50, $100) act as psychological support/resistance."],practice:"Pick 5 stocks/pairs. Draw all major S/R levels on daily charts. Go back 6 months. Count how many times each level was tested. Lines need at least 2 touches.",videos:["Support and Resistance — The Chart Guys","Drawing S/R Levels — Rayner Teo"]},
+    {id:9,title:"Trendlines & Channels",tag:"Technical Analysis",points:["Uptrend line: connect 2+ HIGHER LOWS. Price makes higher highs and higher lows.","Downtrend line: connect 2+ LOWER HIGHS.","Need 2 points to draw, 3rd touch confirms the line is valid.","Channel: parallel line on opposite side. Buy at support, sell at resistance.","Trendline break + volume spike = strong reversal signal."],practice:"On TradingView: draw trendlines on SPY (daily), EUR/USD (4-hr), and TSLA (daily). Mark every touch point. Identify current trend for each.",videos:["Trendline Trading Strategy — Rayner Teo","Drawing Channels — The Chart Guys"]},
+    {id:10,title:"Moving Averages",tag:"Technical Analysis",points:["20 EMA: short-term trend. Pullback entry signal. Reacts quickly to price.","50 SMA: medium-term trend. Major pullback level. Institutions watch this.","200 SMA: long-term trend. Price above = bull market. Price below = bear market.","Golden Cross: 50 MA crosses above 200 MA → long-term bullish.","Pullback strategy: In uptrend, wait for 20 EMA touch, bullish candle, enter."],practice:"Add 20 EMA (blue), 50 SMA (orange), 200 SMA (red) to SPY daily chart. Find 5 examples where price bounced off each MA.",videos:["Moving Average Strategy — Rayner Teo","Golden Cross Explained — Investopedia"]},
+    {id:11,title:"RSI & Momentum",tag:"Indicators",points:["RSI scale: 0–100. Above 70 = overbought. Below 30 = oversold.","In strong trends RSI can stay overbought/oversold — don't fight the trend!","Bullish divergence: price lower low, RSI higher low → potential reversal.","Bearish divergence: price higher high, RSI lower high → potential reversal.","RSI crossing 50 up = momentum shift bullish."],practice:"Add RSI(14) to 3 charts. Find: overbought reading, oversold reading, bullish divergence, bearish divergence. Screenshot each.",videos:["RSI Indicator Explained — Rayner Teo","RSI Divergence Trading — TradingLab"]},
+    {id:12,title:"MACD & Volume",tag:"Indicators",points:["MACD = 12 EMA minus 26 EMA. Signal line = 9 EMA of MACD.","Bullish signal: MACD crosses above signal line.","MACD above zero = uptrend. Below zero = downtrend.","High volume move = conviction (likely continues). Low volume = weak (likely reverses).","Volume + breakout = strong confirmation."],practice:"Add MACD and Volume to 5 charts. Find 3 MACD crossovers — did volume confirm? Find 3 breakouts — high or low volume?",videos:["MACD Complete Guide — Rayner Teo","Volume Analysis — The Chart Guys"]},
+    {id:13,title:"Advanced Candlestick Patterns",tag:"Pattern Recognition",points:["Bullish Engulfing: small red → large green that covers it. Strong buy signal at support.","Bearish Engulfing: small green → large red that covers it. Strong sell at resistance.","Morning Star (3): Long red → small doji → long green. Bullish reversal.","Evening Star (3): Long green → small doji → long red. Bearish reversal.","Three White Soldiers / Three Black Crows: powerful continuation signals."],practice:"Find 5 bullish engulfings, 5 bearish engulfings, 2 morning stars, 2 evening stars on historical charts.",videos:["Advanced Candlesticks — Nison Institute","Engulfing Pattern Trading — Rayner Teo"]},
+    {id:14,title:"Week 2 — Building Confluence",tag:"Assessment",points:["Confluence = multiple signals pointing the same direction at the same time.","Example: Uptrend + Support bounce + Bullish engulfing + Volume spike = STRONG BUY.","The more confluences, the higher probability — but never 100%.","Write a trade thesis before every trade. List all confluences.","If fewer than 3 confluences, skip the trade and wait."],practice:"Find 5 high-confluence setups on historical charts. For each: trend direction, S/R level, candlestick signal, indicator confirmation, volume. Paper trade each.",videos:["Confluence Trading Strategy — Rayner Teo"]}
+  ],
+  w3:[
+    {id:15,title:"Position Sizing Advanced",tag:"Risk Management",points:["Scale in: add to winners as trade moves in your favor. Never add to losers.","Partial exits: take 50% off at 1:1 R:R. Move stop to breakeven. Let rest run.","Portfolio heat: total risk across ALL open trades. Max 6-8% of account.","Correlation: two tech stocks moving same direction = double exposure.","In volatile markets (VIX > 25) — reduce position size by 50%."],practice:"Calculate position sizes for a portfolio of 3 simultaneous trades. Ensure total portfolio risk stays under 6%.",videos:["Position Sizing — Van K. Tharp concepts"]},
+    {id:16,title:"Stop Loss Strategies",tag:"Risk Management",points:["Technical stop: below support for longs. Above resistance for shorts. Best method.","ATR stop: Entry − (2 × Average True Range). Adapts to volatility automatically.","Trailing stop: moves with price to lock in profits.","Breakeven stop: once trade is +1R profit, move stop to entry. Risk-free trade.","NEVER widen a stop loss. Only move it in your favor."],practice:"On 10 paper trades, practice ATR-based stops. Compare to support/resistance stops. Which got stopped out less?",videos:["Stop Loss Placement — Rayner Teo","ATR Indicator Explained — Investopedia"]},
+    {id:17,title:"Build Your Trading Plan",tag:"Strategy Development",points:["Your plan must cover: Market, Timeframe, Entry criteria, Stop rule, Target rule, Size rule.","Entry criteria need minimum 3 confirmations: trend + level + signal.","Exit rules: (1) Target hit, (2) Stop hit, (3) Time stop (close if no move after X candles).","Trading hours: when do you trade? Specific sessions only?","Don't trade 30 min before/after major news. Check economic calendar daily."],practice:"Write your complete trading plan — minimum 1 full page. Include every rule. Explain it out loud. If you can't explain it, you don't understand it.",videos:["How to Write a Trading Plan — Investopedia","Trading Business Plan — SMB Capital"]},
+    {id:18,title:"Backtesting Your Strategy",tag:"Strategy Development",points:["Manual backtest: go back 3-6 months on charts. Find your setup. Record every instance.","Record: entry, stop, target, outcome, R:R achieved. Need 50+ trades for validity.","Calculate: win rate, avg R:R, expectancy = (Win% × Avg Win) − (Loss% × Avg Loss).","Positive expectancy > 0 = edge exists. Negative = fix or abandon.","Don't change rules to fit past data — that's overfitting."],practice:"Backtest your strategy on 50 historical setups. Record all results. Calculate win rate and expectancy. Is it positive?",videos:["How to Backtest — Trading Strategy Guides","Manual Backtesting Tutorial — TradingView"]},
+    {id:19,title:"Trading Journal Mastery",tag:"Performance Tracking",points:["Log every trade: date, asset, direction, entry, stop, target, size, result, P&L, notes.","Emotions section: how did you feel entering? During? Exiting?","Screenshot your charts at entry AND exit.","Weekly review: win rate, avg R:R, best setup, worst mistake, what to improve.","Monthly: net P&L, strategy performance, psychological patterns."],practice:"Set up your journal using the Journal tab. Log your last 10 paper trades retroactively.",videos:["How to Keep a Trading Journal — SMB Capital"]},
+    {id:20,title:"Paper Trading — Live Simulation",tag:"Live Practice",points:["Use your broker's paper account — same platform you'll use for real.","Follow your written plan EXACTLY. No deviations. No exceptions.","Set a daily loss limit: if you lose more than 3% of paper account in one day, stop.","Track every trade in your journal in real time.","Goal: 50 profitable paper trades before going live."],practice:"Execute 5 real-time paper trades today following your plan. Journal each one the moment you enter.",videos:["Paper Trading Tips — Thinkorswim Tutorial"]},
+    {id:21,title:"Week 3 Review",tag:"Assessment",points:["Calculate your paper trading win rate for the week.","Calculate your avg R:R achieved vs. planned.","Grade each trade: A (followed plan), B (minor deviation), C (broke rules).","Identify your #1 mistake this week. Write a specific fix.","Don't change strategy after 1 week. Need 50+ trades minimum to judge."],practice:"Complete weekly review. Highlight 3 best and 3 worst trades. Write what you'll do differently next week.",videos:["Trading Review Process — SMB Capital"]}
+  ],
+  w4:[
+    {id:22,title:"Options Fundamentals",tag:"Options Trading",points:["Call option: right to BUY 100 shares at strike price before expiration.","Put option: right to SELL 100 shares at strike price before expiration.","Premium: the price you pay for the option contract.","Greeks: Delta (price change), Theta (time decay), Vega (volatility), Gamma (delta rate).","Options can expire WORTHLESS. Never buy options expiring in < 30 days as a beginner."],practice:"Look up AAPL options chain on your broker. Find ATM call 30 days out. Note its delta, theta, vega. If AAPL moves +$5, how much does the option move?",videos:["Options Basics — Options Alpha","Options Greeks Explained — Tastytrade"]},
+    {id:23,title:"Conservative Options Strategies",tag:"Options Trading",points:["Covered Call: Own 100 shares + sell 1 call. Collect premium. Cap your upside.","Cash-Secured Put: Sell put + hold cash to buy shares if assigned. Collect premium.","Bull Call Spread: Buy lower strike + sell higher strike. Defined risk and reward.","Bear Put Spread: Buy higher put + sell lower put. Profit if stock falls.","Iron Condor: Sell call spread + put spread. Profit if stock stays in range."],practice:"Paper trade 3 covered calls on stocks you'd actually want to own. Choose 30-45 DTE, sell at 0.30 delta strike. Track until expiration or 50% profit.",videos:["Covered Call Strategy — Tastytrade","Cash-Secured Put — Tastytrade"]},
+    {id:24,title:"Forex Fundamentals",tag:"Forex Trading",points:["Major pairs: EUR/USD, GBP/USD, USD/JPY, USD/CHF, AUD/USD, USD/CAD, NZD/USD.","Pip: smallest price move. Most pairs: 0.0001. JPY pairs: 0.01.","Lot sizes: Standard (100k units/$10 per pip), Mini (10k/$1), Micro (1k/$0.10).","Leverage: USE MAXIMUM 10:1 as beginner. More = account death.","Sessions: London (3am–12pm EST) + NY (8am–5pm EST) overlap = highest volatility."],practice:"Open OANDA demo. Calculate pip value for EUR/USD standard, mini, micro lot. Execute 5 micro lot trades.",videos:["Forex Basics — Babypips School of Pipsology","Forex Sessions Explained — Rayner Teo"]},
+    {id:25,title:"Forex Trading Strategies",tag:"Forex Trading",points:["London Breakout: Mark Asian session high/low. Trade breakout at London open (3am EST).","EMA Trend Following: 20 EMA above 50 EMA = uptrend. Buy pullbacks to 20 EMA.","Range Trading: Buy support, sell resistance in ranging markets. Quick profits.","Always check economic calendar. Avoid NFP, CPI, FOMC news windows.","Don't trade EUR/USD and GBP/USD simultaneously — same bet doubled."],practice:"Demo trade London Breakout strategy for 5 consecutive sessions. Mark Asian highs/lows night before. Journal every trade.",videos:["London Breakout Strategy — Rayner Teo","Forex Range Trading — BabyPips"]},
+    {id:26,title:"Chart Patterns",tag:"Advanced TA",points:["Bull Flag: strong move up → consolidation → breakout continuation. Target = pole length.","Head & Shoulders: L shoulder + head + R shoulder + neckline break = bearish reversal.","Double Top: two peaks at same level + support break. Target = pattern height.","Double Bottom: two lows at same level + resistance break.","Ascending Triangle: flat resistance + rising support. Usually breaks up."],practice:"Find 2 examples of each pattern on historical daily charts. Measure and calculate what the target would have been.",videos:["Chart Patterns — The Chart Guys","Head and Shoulders Pattern — Investopedia"]},
+    {id:27,title:"Current Market Adaptation",tag:"Advanced Strategy",points:["Market regimes: trending (30%), ranging (50%), volatile (20%). Different strategies for each.","VIX < 15 = calm. 15-25 = normal. > 25 = fearful → reduce position size 50%.","Economic calendar: FOMC, NFP (1st Friday monthly), CPI/PPI = high-impact events.","Sector rotation: money flows sector to sector. Follow the strongest sectors.","When strategy stops working for 10+ trades, pause and review. Don't force it."],practice:"Check VIX daily for 1 week. Note how market behaves at different levels. Mark high-impact events on calendar for next 30 days.",videos:["VIX Explained — CBOE","Sector Rotation — Fidelity Investments"]},
+    {id:28,title:"Portfolio Building",tag:"Money Management",points:["Beginner allocation: 50% paper still, 30% conservative, 15% swing, 5% speculative.","Maximum 5 open positions at once. More = overloaded, emotional decisions.","Diversify across sectors — not 5 tech stocks. Mix sectors and market caps.","Compounding: 2% monthly = 26.8% annually. Slow and steady wins.","Drawdown rule: if account drops 10% from peak, stop trading and review."],practice:"Design your ideal portfolio on paper. 3-5 focus stocks/pairs. What % in each strategy? Write it out.",videos:["Portfolio Management Basics — Investopedia"]},
+    {id:29,title:"Your Trading Business Plan",tag:"Business Setup",points:["Daily routine: pre-market (news + watchlist) → execute only planned trades → post-market journal.","Weekly: Sunday review of all trades, P&L, strategy performance, next week's setups.","Monthly: audit P&L vs goals. Tax tracking (short-term gains = ordinary income in US).","Tools: broker platform, TradingView, economic calendar, journal.","Income goals must be realistic: 2-3% monthly is exceptional. Set process goals, not dollar goals."],practice:"Write your full trading business plan: daily schedule, monthly goal, max monthly loss, strategy review cadence, and tax plan.",videos:["Trading as a Business — SMB Capital","Trader Tax Strategy — GreenTraderTax.com"]},
+    {id:30,title:"Final Assessment — Ready to Go Live?",tag:"Assessment + Launch",points:["Paper trade requirement: 50+ trades, win rate ≥ 50%, profitable overall. All three.","Start with 10-20% of calculated position size. Grow 10% per month if consistently profitable.","Real emotions hit differently. First real $200 loss feels worse than $1k paper loss.","The market will always be here tomorrow. There is no prize for rushing.","Commit to journaling every trade for minimum 6 months."],practice:"Complete the Go-Live checklist tab. Honest answers only. If ANY box is unchecked — keep paper trading.",videos:["Going Live — When You're Really Ready — SMB Capital"]}
+  ],
+  w5:[
+    {id:31,title:"How AI Fits Into Your Trading",tag:"AI Foundations",points:["AI is a research and execution assistant, NOT a crystal ball. It recognizes patterns — cannot predict the future.","Three categories: (1) Analysis & screening AI, (2) AI chat assistants, (3) Automated execution bots.","Garbage in = garbage out. A bot built on a bad strategy loses money FASTER.","Everything from Weeks 1-4 still applies — AI just helps you execute and analyze faster.","Never give AI full control without a tested strategy, daily loss limit, and constant monitoring."],practice:"Make a 3-column list: tools for Analysis, Research, Automation. Fill in each column as you go through this module.",videos:["AI in Trading: Hype vs Reality — Tastytrade","How Hedge Funds Use AI — Bloomberg Quicktake"]},
+    {id:32,title:"AI Tools for Chart Analysis & Screening",tag:"AI Tools",points:["TrendSpider — AI-powered automated trendlines, S/R detection, pattern recognition across any chart.","Tickeron — AI pattern scanner that flags patterns in real time with a confidence score.","Trade Ideas (Holly AI) — AI scans entire market and alerts you to live setups matching your criteria.","Finviz + AI chat — pairs screener data with AI interpretation in plain English.","Use these to FIND candidates faster — you still apply your rules before entering."],practice:"Sign up for free trial of TrendSpider OR Tickeron. Run a scan for your setup. Compare flagged stocks against your own manual analysis.",videos:["TrendSpider Full Walkthrough — TrendSpider Official","Tickeron AI Pattern Scanner Demo — Tickeron"]},
+    {id:33,title:"AI Chat Assistants for Research & Strategy",tag:"AI Tools",points:["Claude / ChatGPT — paste in price data, earnings reports, or chart screenshots and ask for analysis.","Use AI to stress-test your strategy: describe your rules and ask for logical flaws.","Use AI to summarize earnings calls and 10-K filings fast — 40 pages into 5 bullets.","Perplexity AI — real-time market news research with cited sources. Always verify citations.","AI CANNOT see real-time prices — never trust an AI's claim about 'current price' without verifying."],practice:"Open Claude or ChatGPT. Paste your trading plan from Day 17. Ask: 'What are 3 weaknesses in this plan?' Write down its feedback and decide what to apply.",videos:["Using ChatGPT for Stock Research — Everything Money","Perplexity AI for Market News — Perplexity Official"]},
+    {id:34,title:"Automated / Algorithmic Trading Bots",tag:"AI Automation",points:["3Commas / Cryptohopper — bot platforms (mainly crypto) for rule-based trading, no coding needed.","Trade Ideas (Holly AI) — connects to Interactive Brokers for semi/fully automated execution.","QuantConnect / Alpaca — code your own algorithm in Python and run it via API.","Composer.trade — no-code platform to build rule-based automated strategies.","EVERY bot needs: tested strategy, max daily loss limit, and a kill switch you can hit instantly."],practice:"Create a free account on Composer.trade OR 3Commas. Build ONE simple moving average crossover strategy. Run in paper/simulation mode ONLY.",videos:["Composer.trade No-Code Bot Tutorial — Composer Official","Alpaca API for Algo Trading — Alpaca Official","3Commas Bot Setup Guide — 3Commas Official"]},
+    {id:35,title:"Setting Up Your Automated AI Trading System",tag:"Step-by-Step Setup",points:["STEP 1 — Strategy first: only automate what you've backtested manually (Day 18). No exceptions.","STEP 2 — Choose platform: no-code (Composer, 3Commas) or API-based (Alpaca + Python).","STEP 3 — Connect broker via API: NEVER share API keys with withdrawal permissions — trade-only.","STEP 4 — Set hard guardrails BEFORE activating: max position size, max 3% daily loss, auto-shutoff.","STEP 5 — Paper trade bot for 30 days. STEP 6 — Go live at 10-20% position size, monitor daily."],practice:"Write your AI automation safety checklist: strategy source, platform, max daily loss %, max position size, kill-switch method, paper-trading period.",videos:["Algo Trading Risk Controls — QuantConnect","How to Connect Alpaca API Safely — Alpaca Official"]},
+    {id:36,title:"AI Trading Pitfalls & Ethical Limits",tag:"Risk Awareness",points:["Red flag #1: 'Guaranteed returns' or 'AI never loses' — no legitimate tool claims this. Run.","Red flag #2: Backtested results with no live track record — easy to cherry-pick.","Red flag #3: Bots requiring deposit into THEIR wallet — common scam structure.","AI models can hallucinate financial data — always verify numbers against primary sources.","Check SEC/FINRA registration for any 'AI investment advisor' promising managed returns."],practice:"Research one AI trading tool advertised on social media. Identify which red flags apply. Would you trust it with real money? Write your reasoning.",videos:["AI Trading Scams to Avoid — Trading Channel","SEC Investor Alerts on AI Claims — SEC.gov"]}
+  ]
 };
 
-/* ── WEEKS DATA ── */
-const weeks = [
-  {
-    id:1, label:"WEEK 1", title:"Foundation & Market Setup",
-    color:SHA_GREEN, textColor:"#fff",
-    days:[
-      { day:1, title:"How Markets Actually Work", tag:"Video + Reading",
-        overview:"Understand the difference between stocks, forex, and options — and which market suits your goals.",
-        keyPoints:["Stock market = ownership in companies. NYSE / NASDAQ. 9:30 AM–4 PM EST.","Forex market = currency pairs. Decentralized. Runs 24/5.","Options market = contracts giving the right (not obligation) to buy/sell at a price.","Market participants: retail traders, institutions, market makers, hedge funds.","Trading vs investing: trading profits from short moves; investing builds long-term wealth."],
-        diagram:"markets",
-        practice:"Open TradingView.com (free). Look at SPY (stocks), EUR/USD (forex), and AAPL options chain. Spend 20 minutes exploring each. Write 3 observations about how they differ.",
-        videos:["How Stock Markets Work — Khan Academy","Forex Market Explained — Babypips.com"],
-        quiz:["What time does the US stock market open EST?","What does OTC (over-the-counter) mean in forex?"]
-      },
-      { day:2, title:"Choosing Your Broker", tag:"Practical Setup",
-        overview:"Your broker is your gateway to the markets. Choose wrong and you'll fight your tools every day.",
-        keyPoints:["Stocks/Options: TD Ameritrade (Thinkorswim), Fidelity, Interactive Brokers, Webull.","Forex: OANDA, Forex.com, Interactive Brokers — verify NFA/CFTC regulation.","Check: commissions, platform speed, charting tools, margin requirements, education resources.","Paper trading (demo) accounts let you practice without real money — mandatory before going live.","Never skip regulation check. Unregulated brokers can disappear with your funds."],
-        diagram:null,
-        practice:"Open a free demo account on Thinkorswim (TD Ameritrade) AND OANDA. Place 3 paper trades on each. Compare execution speed and charting features.",
-        videos:["Best Brokers for Beginners — Investopedia","Thinkorswim Demo Tutorial — YouTube"],
-        quiz:["Name 2 regulators for US forex brokers.","What is a spread?"]
-      },
-      { day:3, title:"Trading Psychology", tag:"Mindset",
-        overview:"90% of traders lose money. Not because of bad strategy — because of bad psychology.",
-        keyPoints:["The 90-90-90 Rule: 90% of traders lose 90% of their money in 90 days.","FOMO (Fear of Missing Out) causes impulsive entries — the market's most expensive emotion.","Revenge trading: losing → emotional trade to recover → bigger loss. Never do this.","Loss aversion: humans feel losses 2× more than equivalent gains (Daniel Kahneman).","Solution: Pre-plan every trade. Rules over feelings. Always."],
-        diagram:null,
-        practice:"Write in a journal: (1) Why do you want to trade? (2) What is your realistic monthly goal? (3) How will you react to 5 losses in a row? (4) What are YOUR emotional triggers?",
-        videos:["Trading in the Zone Summary — Mark Douglas","Why Traders Fail — SMB Capital"],
-        quiz:["What is revenge trading?","Define confirmation bias in trading."]
-      },
-      { day:4, title:"Risk Management — The 1-2% Rule", tag:"Critical Skill",
-        overview:"This single rule separates traders who survive from those who blow up their accounts.",
-        keyPoints:["The Rule: Never risk more than 1-2% of your account on any single trade.","Formula: Position Size = (Account × Risk%) ÷ (Entry − Stop Loss)","Example: $10,000 × 1% = $100 max loss. Entry $150, Stop $148. Risk/share = $2. Shares = 50.","Risk-Reward: Minimum 1:2. Risk $100 to make $200. Even at 40% win rate you're profitable.","Hard stops only. No mental stops. If you lose internet your account is protected."],
-        diagram:"riskCalc",
-        practice:"Calculate position size for 10 different scenarios. Vary account size, risk %, and stop distances. Use the formula each time.",
-        videos:["Position Sizing Explained — Rayner Teo","Risk Management Rules — SMB Capital"],
-        quiz:["$20,000 account, 1% risk, entry $80, stop $77. What is position size?","What is the minimum R:R ratio?"]
-      },
-      { day:5, title:"Chart Types & Timeframes", tag:"Technical Basics",
-        overview:"Charts are your roadmap. Learn to read them before you try to navigate.",
-        keyPoints:["Line chart: closes only. Good for macro trend view.","Bar (OHLC) chart: shows open, high, low, close. More data than line.","Candlestick chart: most popular. Visual, intuitive, shows sentiment.","Day traders: 1-min, 5-min, 15-min. Swing traders: 1-hr, 4-hr, daily. Position: weekly.","Multi-timeframe rule: Higher TF = trend direction. Entry TF = setup. Lower TF = precise entry."],
-        diagram:null,
-        practice:"On TradingView: open SPY. Switch between 5-min, 15-min, 1-hr, daily, and weekly charts. Write: Is the trend the same on all timeframes? Where do they conflict?",
-        videos:["Chart Types Explained — Investopedia Academy","Multi-Timeframe Analysis — Rayner Teo"],
-        quiz:["What timeframe would a swing trader primarily use?","Define OHLC."]
-      },
-      { day:6, title:"Candlestick Patterns Part 1", tag:"Pattern Recognition",
-        overview:"Every candlestick tells a story of the battle between buyers and sellers. Learn to read it.",
-        keyPoints:["Doji: Open ≈ Close. Long wicks both sides. Indecision — potential reversal.","Hammer: Small body at top, long lower wick. Buyers rejected sellers. Bullish reversal at bottom.","Shooting Star: Small body at bottom, long upper wick. Sellers rejected buyers. Bearish at top.","Marubozu: Full body, no wicks. Complete dominance by buyers (green) or sellers (red).","CONTEXT IS EVERYTHING. A hammer at support = powerful. A hammer mid-chart = meaningless."],
-        diagram:"candles1",
-        practice:"Open historical chart of AAPL (6-month daily). Identify 10 hammers, 5 shooting stars, 5 dojis. Mark them. Write what happened in the next 3 candles each time.",
-        videos:["Candlestick Patterns — Steve Nison","Candlestick Mastery — Rayner Teo"],
-        quiz:["What does a hammer signal at the bottom of a downtrend?","What is the difference between a doji and a spinning top?"]
-      },
-      { day:7, title:"Week 1 Review & Assessment", tag:"Assessment",
-        overview:"Consolidate everything from Week 1 before advancing. Rushing leads to gaps in knowledge.",
-        keyPoints:["Can you explain all 3 market types to someone unfamiliar with trading?","Do you have at least 2 demo accounts active and have placed paper trades?","Can you calculate position size in under 60 seconds?","Have you identified at least 5 candlestick patterns on real charts?","Have you written your trading journal entries for the week?"],
-        diagram:null,
-        practice:"Self-quiz: Without notes, write the position size formula, name 4 candlestick patterns, name 3 brokers, and define risk-reward ratio. Grade yourself. Re-read anything below 80%.",
-        videos:["Week 1 Recap — review your notes from each day"],
-        quiz:["What is your maximum risk per trade?","Name the 4 components of a candlestick."]
-      }
-    ]
-  },
-  {
-    id:2, label:"WEEK 2", title:"Technical Analysis Mastery",
-    color:"#1e40af", textColor:"#fff",
-    days:[
-      { day:8, title:"Support & Resistance", tag:"Technical Analysis",
-        overview:"Support and resistance are the most important concepts in technical analysis. Master these first.",
-        keyPoints:["Support = price floor where buyers step in. 2+ bounces = confirmed.","Resistance = price ceiling where sellers step in. 2+ rejections = confirmed.","The more times a level is tested, the stronger it is.","Role reversal: broken support becomes resistance. Broken resistance becomes support.","Round numbers ($50, $100, $500) act as psychological S/R."],
-        diagram:"sr",
-        practice:"Pick 5 stocks/pairs. Draw all major S/R levels on daily charts. Go back 6 months. Count how many times each level was tested.",
-        videos:["Support and Resistance — The Chart Guys","Drawing S/R Levels — Rayner Teo"],
-        quiz:["If resistance at $50 breaks, what does $50 become?","Why do round numbers act as S/R?"]
-      },
-      { day:9, title:"Trendlines & Channels", tag:"Technical Analysis",
-        overview:"Trends make money. Channels contain price. Learn to draw both correctly.",
-        keyPoints:["Uptrend line: connect 2+ HIGHER LOWS.","Downtrend line: connect 2+ LOWER HIGHS.","Need 2 points to draw, 3rd touch confirms the line is valid.","Channel: parallel line on opposite side. Buy at support, sell at resistance.","Trendline break + volume spike = strong reversal signal."],
-        diagram:"trendlines",
-        practice:"On TradingView: draw trendlines on SPY (daily), EUR/USD (4-hr), and TSLA (daily). Mark every touch point. Identify current trend for each.",
-        videos:["Trendline Trading Strategy — Rayner Teo","Drawing Channels — The Chart Guys"],
-        quiz:["How many points confirm a trendline?","In a channel, where do you buy?"]
-      },
-      { day:10, title:"Moving Averages", tag:"Technical Analysis",
-        overview:"Moving averages smooth out noise and reveal the true trend. They act as dynamic support/resistance.",
-        keyPoints:["20 EMA: short-term trend. Pullback entry signal. Reacts quickly to price.","50 SMA: medium-term trend. Major pullback level. Institutions watch this.","200 SMA: long-term trend. Price above = bull market. Price below = bear market.","Golden Cross: 50 MA crosses above 200 MA → long-term bullish.","Pullback strategy: In uptrend, wait for 20 EMA touch, bullish candle, enter."],
-        diagram:"mas",
-        practice:"Add 20 EMA (blue), 50 SMA (orange), 200 SMA (red) to SPY daily chart. Find 5 examples where price bounced off each MA.",
-        videos:["Moving Average Strategy — Rayner Teo","Golden Cross Explained — Investopedia"],
-        quiz:["What does price above the 200 SMA tell you?","What is a Death Cross?"]
-      },
-      { day:11, title:"RSI & Momentum", tag:"Indicators",
-        overview:"RSI tells you how fast price is moving and whether a reversal might be near.",
-        keyPoints:["RSI scale: 0–100. Above 70 = overbought. Below 30 = oversold.","In strong trends RSI can stay overbought/oversold — don't fight the trend.","Bullish divergence: price lower low, RSI higher low → potential reversal.","Bearish divergence: price higher high, RSI lower high → potential reversal.","RSI crossing 50 up = momentum shift bullish."],
-        diagram:null,
-        practice:"Add RSI(14) to 3 charts. Find: overbought reading, oversold reading, bullish divergence, bearish divergence.",
-        videos:["RSI Indicator Explained — Rayner Teo","RSI Divergence Trading — TradingLab"],
-        quiz:["What is bullish RSI divergence?","Why can't you blindly sell when RSI is above 70?"]
-      },
-      { day:12, title:"MACD & Volume", tag:"Indicators",
-        overview:"MACD shows momentum shifts. Volume confirms whether a move has conviction.",
-        keyPoints:["MACD = 12 EMA minus 26 EMA. Signal line = 9 EMA of MACD.","Bullish signal: MACD crosses above signal line.","MACD above zero = uptrend. Below zero = downtrend.","High volume move = conviction. Low volume move = weak.","Volume + breakout = confirmation."],
-        diagram:null,
-        practice:"Add MACD and Volume to 5 charts. Find 3 MACD crossovers — did volume confirm?",
-        videos:["MACD Complete Guide — Rayner Teo","Volume Analysis — The Chart Guys"],
-        quiz:["What does a MACD histogram shrinking tell you?","Why is a breakout on low volume suspicious?"]
-      },
-      { day:13, title:"Advanced Candlestick Patterns", tag:"Pattern Recognition",
-        overview:"Multi-candle patterns are more reliable than single candles because they show a story unfolding.",
-        keyPoints:["Bullish Engulfing: small red → large green that covers it. Buy signal at support.","Bearish Engulfing: small green → large red that covers it. Sell signal at resistance.","Morning Star (3): Long red → small doji → long green. Bullish reversal.","Evening Star (3): Long green → small doji → long red. Bearish reversal.","Three White Soldiers / Three Black Crows: powerful continuation."],
-        diagram:"candles2",
-        practice:"Find 5 bullish engulfings, 5 bearish engulfings, 2 morning stars, 2 evening stars on historical charts.",
-        videos:["Advanced Candlesticks — Nison Institute","Engulfing Pattern Trading — Rayner Teo"],
-        quiz:["In a Morning Star, what does the middle candle represent?","Does an engulfing pattern work better at support or resistance?"]
-      },
-      { day:14, title:"Week 2 — Building Confluence", tag:"Assessment",
-        overview:"One signal is noise. Three signals are a trade. Learn to stack confirmations before entering.",
-        keyPoints:["Confluence = multiple signals pointing the same direction at the same time.","Example: Uptrend + Support bounce + Bullish engulfing + Volume spike = STRONG BUY.","The more confluences, the higher the probability — but never 100%.","Write a trade thesis: 'I'm buying because...' List all confluences.","If fewer than 3 confluences, skip the trade."],
-        diagram:null,
-        practice:"Find 5 high-confluence setups on historical charts. For each write: trend, S/R level, candlestick, indicator, volume. Paper trade each.",
-        videos:["Confluence Trading Strategy — Rayner Teo"],
-        quiz:["Define confluence in trading.","Name 4 factors that create confluence."]
-      }
-    ]
-  },
-  {
-    id:3, label:"WEEK 3", title:"Strategy, Execution & Paper Trading",
-    color:"#6d28d9", textColor:"#fff",
-    days:[
-      { day:15, title:"Position Sizing Advanced", tag:"Risk Management", overview:"Deepen your position sizing — scaling in, partial exits, and portfolio heat.", keyPoints:["Scale in: add to winners as trade moves in your favor. Never add to losers.","Partial exits: take 50% off at 1:1 R:R. Move stop to breakeven. Let rest run.","Portfolio heat: total risk across ALL open trades. Max 6-8% of account at any time.","Correlation: two tech stocks in same direction = double exposure.","In volatile markets (VIX > 25) — reduce position size by 50%."], diagram:null, practice:"Calculate position sizes for a portfolio of 3 simultaneous trades. Ensure total portfolio risk stays under 6%.", videos:["Position Sizing — Van K. Tharp concepts"], quiz:["What is portfolio heat?","When should you scale INTO a trade?"] },
-      { day:16, title:"Stop Loss Strategies Deep Dive", tag:"Risk Management", overview:"Where you place your stop determines your survival. This is not optional.", keyPoints:["Technical stop: below support for longs. Above resistance for shorts. Best method.","ATR stop: Entry − (2 × Average True Range). Adapts to volatility automatically.","Trailing stop: moves with price to lock in profits. Doesn't move against you.","Breakeven stop: once trade is +1R profit, move stop to entry price. Risk-free.","NEVER widen a stop loss. Only move it in your favor."], diagram:"stopLoss", practice:"On 10 paper trades, practice placing ATR-based stops. Compare results to support/resistance stops.", videos:["Stop Loss Placement — Rayner Teo","ATR Indicator Explained — Investopedia"], quiz:["What is an ATR stop?","When should you move your stop to breakeven?"] },
-      { day:17, title:"Build Your Trading Plan", tag:"Strategy Development", overview:"A plan without execution is a wish. A trade without a plan is gambling.", keyPoints:["Your plan must cover: Market, Timeframe, Entry criteria, Stop rule, Target rule, Position size rule.","Entry criteria need minimum 3 confirmations: trend + level + signal.","Exit rules: (1) Target hit, (2) Stop hit, (3) Time stop.","Trading hours: when do you trade? Specific sessions only?","Filters: Don't trade 30 min before/after major news. Check economic calendar daily."], diagram:null, practice:"Write your complete trading plan — minimum 1 full page. Include every rule. Explain it out loud.", videos:["How to Write a Trading Plan — Investopedia","Trading Business Plan — SMB Capital"], quiz:["Name 5 elements every trading plan must have.","What is a time stop?"] },
-      { day:18, title:"Backtesting Your Strategy", tag:"Strategy Development", overview:"Backtesting proves whether your strategy has edge before you risk real money.", keyPoints:["Manual backtest: go back 3–6 months on charts. Find your setup. Record every instance.","Record: entry, stop, target, outcome, R:R. Need minimum 50 trades for validity.","Calculate: win rate, avg R:R, expectancy = (Win% × Avg Win) − (Loss% × Avg Loss).","Positive expectancy > 0 = edge exists.","Avoid overfitting: don't change rules to fit past data."], diagram:null, practice:"Backtest your strategy on 50 historical setups. Calculate win rate and expectancy. Is it positive?", videos:["How to Backtest — Trading Strategy Guides","Manual Backtesting Tutorial — TradingView"], quiz:["What is expectancy in trading?","Why do you need 50+ backtested trades?"] },
-      { day:19, title:"Trading Journal Mastery", tag:"Performance Tracking", overview:"Your journal is your most valuable trading tool. Pro traders journal everything.", keyPoints:["Log every trade: date, asset, direction, entry, stop, target, size, result, P&L, notes.","Emotions section: how did you feel entering? During? Exiting?","Screenshot your charts at entry AND exit.","Weekly review: win rate, avg R:R, best setup, worst mistake.","Monthly: net P&L, strategy performance, psychological patterns."], diagram:"journal", practice:"Set up your trading journal (spreadsheet or Notion). Log your last 10 paper trades retroactively.", videos:["How to Keep a Trading Journal — SMB Capital"], quiz:["What should you record immediately after entering a trade?","Why are screenshot annotations valuable?"] },
-      { day:20, title:"Paper Trading — Live Simulation", tag:"Live Practice", overview:"Treat paper trading like real money. The only difference is the number in the account.", keyPoints:["Use your broker's paper account — same platform you'll use for real trading.","Follow your written plan EXACTLY. No deviations. No exceptions.","Set a daily loss limit: if you lose more than 3% of paper account, stop trading.","Track every trade in your journal in real time.","Goal: 50 profitable paper trades before going live."], diagram:null, practice:"Execute 5 real-time paper trades today following your plan. Journal each one the moment you enter.", videos:["Paper Trading Tips — Thinkorswim Tutorial"], quiz:["What is a daily loss limit and why use it?","What is your goal for paper trades before going live?"] },
-      { day:21, title:"Week 3 Performance Review", tag:"Assessment", overview:"Data-driven self-assessment. What's working? What's not? Be brutally honest.", keyPoints:["Calculate your paper trading win rate for the week.","Calculate your avg R:R achieved vs. planned.","Did you follow your rules? Grade each trade: A (followed plan), B (minor deviation), C (broke rules).","Identify your #1 mistake this week. Write a specific fix.","Don't change strategy after 1 week. Need 50 trades minimum to judge effectiveness."], diagram:null, practice:"Complete your full weekly review. Highlight your 3 best and 3 worst trades. Write what you'll do differently.", videos:["Trading Review Process — SMB Capital"], quiz:["After how many trades can you judge strategy effectiveness?","What is a grade A trade?"] }
-    ]
-  },
-  {
-    id:4, label:"WEEK 4", title:"Advanced Markets — Options & Forex",
-    color:"#b45309", textColor:"#fff",
-    days:[
-      { day:22, title:"Options Fundamentals", tag:"Options Trading", overview:"Options are tools for income and protection — not lottery tickets.", keyPoints:["Call option: right to BUY 100 shares at strike price before expiration.","Put option: right to SELL 100 shares at strike price before expiration.","Premium: the price you pay for the option contract.","Intrinsic value: how far in-the-money the option is. Extrinsic: time + volatility.","Greeks: Delta (price change), Theta (time decay), Vega (volatility), Gamma (delta rate)."], diagram:null, practice:"Look up AAPL options chain. Find ATM call 30 days out. Note its delta, theta, vega.", videos:["Options Basics — Options Alpha","Options Greeks Explained — Tastytrade"], quiz:["What does a delta of 0.50 mean?","What is theta decay?"] },
-      { day:23, title:"Options Income Strategies", tag:"Options Trading", overview:"Conservative strategies that generate consistent income from options.", keyPoints:["Covered Call: Own 100 shares + sell 1 call. Collect premium. Cap upside.","Cash-Secured Put: Sell put + hold cash to buy shares. Collect premium.","Bull Call Spread: Buy lower strike + sell higher strike. Defined risk.","Bear Put Spread: Buy higher strike put + sell lower. Profit if stock falls.","Iron Condor: Sell call spread + put spread. Profit if stock stays in range."], diagram:null, practice:"Paper trade 3 covered calls on stocks you'd actually want to own. Choose 30–45 DTE.", videos:["Covered Call Strategy — Tastytrade","Cash-Secured Put — Tastytrade"], quiz:["When would you sell a cash-secured put?","What is max profit on a covered call?"] },
-      { day:24, title:"Forex Fundamentals", tag:"Forex Trading", overview:"The forex market trades $7.5 trillion per day. Learn the rules before you play.", keyPoints:["Major pairs: EUR/USD, GBP/USD, USD/JPY, USD/CHF, AUD/USD, USD/CAD, NZD/USD.","Pip: smallest price move. Most pairs: 0.0001. JPY pairs: 0.01.","Lot sizes: Standard (100k units/$10 per pip), Mini (10k/$1), Micro (1k/$0.10).","Leverage: USE MAXIMUM 10:1 as beginner. More = account death.","Sessions: Asian, London, New York. London + NY overlap = highest volatility."], diagram:null, practice:"Open OANDA demo. Calculate pip value for EUR/USD standard, mini, micro lot.", videos:["Forex Basics — Babypips School of Pipsology","Forex Sessions Explained — Rayner Teo"], quiz:["What is 1 pip worth on a EUR/USD mini lot?","Which two sessions overlap for highest volatility?"] },
-      { day:25, title:"Forex Trading Strategies", tag:"Forex Trading", overview:"Three proven forex strategies that work across different market conditions.", keyPoints:["London Breakout: Mark Asian session high/low. Trade breakout at London open.","EMA Trend Following: 20 EMA above 50 EMA = uptrend. Buy pullbacks.","Range Trading: Buy support, sell resistance in ranging markets.","Economic calendar: ALWAYS check before trading. Avoid NFP, CPI, FOMC windows.","Correlation: EUR/USD and GBP/USD move similarly — don't buy both simultaneously."], diagram:null, practice:"Demo trade the London Breakout strategy for 5 consecutive sessions. Journal every trade.", videos:["London Breakout Strategy — Rayner Teo","Forex Range Trading — BabyPips"], quiz:["What time does the London session open EST?","Why shouldn't you trade EUR/USD and GBP/USD simultaneously?"] },
-      { day:26, title:"Chart Patterns", tag:"Advanced Technical Analysis", overview:"Chart patterns repeat because human psychology repeats.", keyPoints:["Bull Flag: strong move up → consolidation → breakout. Target = pole length.","Head & Shoulders: L shoulder + head + R shoulder + neckline break = bearish reversal.","Double Top: two peaks at same level + support break.","Double Bottom: two lows at same level + resistance break.","Ascending Triangle: flat resistance + rising support. Usually breaks up."], diagram:"patterns", practice:"Find 2 examples of each pattern on historical daily charts. Measure and calculate targets.", videos:["Chart Patterns — The Chart Guys","Head and Shoulders Pattern — Investopedia"], quiz:["How do you calculate the H&S target?","What does a flag pattern tell you about momentum?"] },
-      { day:27, title:"Current Market Adaptation", tag:"Advanced Strategy", overview:"Markets change character. Adapt or lose.", keyPoints:["Market regimes: trending (30%), ranging (50%), volatile (20%). Different strategies for each.","VIX < 15 = calm, 15–25 = normal, > 25 = fearful. Above 25, reduce size 50%.","Economic calendar: FOMC, NFP (1st Friday monthly), CPI/PPI = high-impact events.","Sector rotation: money flows sector to sector. Follow it.","When your strategy stops working for 10+ trades, pause and review."], diagram:null, practice:"Check VIX daily for 1 week. Mark high-impact events on economic calendar for next 30 days.", videos:["VIX Explained — CBOE","Sector Rotation — Fidelity Investments"], quiz:["What does VIX above 25 mean for position sizing?","Define market regime."] },
-      { day:28, title:"Portfolio Building", tag:"Money Management", overview:"Build a portfolio systematically to protect capital while growing it.", keyPoints:["Beginner allocation: 50% paper, 30% conservative, 15% swing, 5% speculative.","Maximum 5 open positions at once.","Diversify across sectors — not 5 tech stocks.","Compounding: 2% monthly = 26.8% annually. Slow and steady wins.","Drawdown rule: if account drops 10% from peak, stop and review."], diagram:null, practice:"Design your ideal portfolio. What are your 3-5 focus stocks/pairs? What % in each strategy?", videos:["Portfolio Management Basics — Investopedia"], quiz:["What is compounding and why does it matter?","At what drawdown % should you stop and review?"] },
-      { day:29, title:"Your Trading Business Plan", tag:"Business Setup", overview:"Trading is a business. Treat it like one.", keyPoints:["Daily routine: pre-market → execute only planned trades → post-market journal.","Weekly: Sunday review of all trades, P&L, strategy performance.","Monthly: audit P&L vs. goals. Track taxes (short-term gains taxed as income in US).","Tools needed: broker platform, TradingView, economic calendar, journal spreadsheet.","Income goals must be realistic: 2-3% monthly is exceptional."], diagram:null, practice:"Write your full trading business plan. Include daily schedule, monthly goal, max monthly loss, and tax plan.", videos:["Trading as a Business — SMB Capital","Trader Tax Strategy — GreenTraderTax.com"], quiz:["How are short-term trading gains taxed in the US?","What is a process goal vs. income goal?"] },
-      { day:30, title:"Final Assessment — Ready to Go Live?", tag:"Assessment + Launch", overview:"30 days of foundation. Now the real education begins — IF you're ready.", keyPoints:["Paper trade requirement: 50+ trades, win rate ≥ 50%, profitable overall. All three.","Start with 10-20% of calculated position size. Grow 10% per month if profitable.","Real emotions hit differently. Your first real loss at $200 feels worse than $1k paper loss.","The market will always be there. There is no prize for rushing.","Commit to journaling every trade for minimum 6 months."], diagram:null, practice:"Complete the go-live checklist. Honest answers only. If ANY box is unchecked, keep paper trading.", videos:["Going Live — When You're Really Ready — SMB Capital"], quiz:["What are the 3 requirements before going live?","What position size do you start with when going live?"] }
-    ]
-  },
-  {
-    id:5, label:"BONUS MODULE", title:"AI-Powered Trading & Automation",
-    color:"#0e7490", textColor:"#fff",
-    days:[
-      { day:31, title:"How AI Fits Into Your Trading", tag:"AI Foundations",
-        overview:"AI doesn't replace your trading education — it accelerates research, removes emotion from execution, and speeds up analysis.",
-        keyPoints:["AI is a research and execution assistant, NOT a crystal ball. It recognizes patterns — it cannot predict the future.","Three categories: (1) Analysis & screening AI, (2) AI chat assistants, (3) Automated execution bots.","Garbage in = garbage out. A bot built on a bad strategy loses money FASTER.","Everything from Weeks 1-4 still applies — AI just helps you execute and analyze faster.","Never give AI full control without a tested strategy, daily loss limit, and constant monitoring."],
-        diagram:"aiOverview",
-        practice:"Make a 3-column list: tools for Analysis, Research, Automation. We'll fill these in the next lessons.",
-        videos:["AI in Trading: Hype vs Reality — Tastytrade","How Hedge Funds Use AI — Bloomberg Quicktake"],
-        quiz:["Name the 3 categories of AI trading tools.","Why is 'garbage in, garbage out' especially dangerous with automated bots?"]
-      },
-      { day:32, title:"AI Tools for Chart Analysis & Screening", tag:"AI Tools",
-        overview:"These tools scan thousands of stocks/pairs and flag setups matching your criteria — saving you hours of manual chart-flipping.",
-        keyPoints:["TrendSpider — AI-powered automated trendlines, S/R detection, and pattern recognition.","Tickeron — AI pattern scanner that flags patterns in real time with a confidence score.","Trade Ideas (Holly AI) — AI scans the entire market and alerts you to live setups.","Finviz + AI chat — pairs screener data with AI interpretation in plain English.","Use these to FIND candidates faster — you still apply your rules before entering."],
-        diagram:null,
-        practice:"Sign up for a free trial of TrendSpider OR Tickeron. Run a scan for your setup. Compare flagged stocks against your own manual analysis.",
-        videos:["TrendSpider Full Walkthrough — TrendSpider Official","Tickeron AI Pattern Scanner Demo — Tickeron"],
-        quiz:["What does Trade Ideas' Holly AI do differently from a basic screener?","Why should AI-flagged setups still be checked against your own rules?"]
-      },
-      { day:33, title:"AI Chat Assistants for Research & Strategy", tag:"AI Tools",
-        overview:"Claude and ChatGPT are powerful for research, strategy-building, and decision support when you feed them the right data.",
-        keyPoints:["Claude / ChatGPT — paste in data, earnings reports, or chart screenshots and ask for analysis.","Use AI to stress-test your strategy: describe your rules and ask for logical flaws.","Use AI to summarize earnings calls, 10-K filings, or news — 40 pages into 5 bullets.","Perplexity AI — real-time market news research with cited sources (always verify citations).","AI CANNOT see real-time prices — never trust an AI's claim about 'current price' without verifying."],
-        diagram:"aiChatFlow",
-        practice:"Open Claude or ChatGPT. Paste your trading plan from Day 17. Ask: 'What are 3 weaknesses in this plan?' Write down its feedback and decide what to apply.",
-        videos:["Using ChatGPT for Stock Research — Everything Money","Perplexity AI for Market News — Perplexity Official"],
-        quiz:["Why can't you trust an AI chatbot's claim about the 'current' stock price?","Name one practical use of AI chat tools in your trading routine."]
-      },
-      { day:34, title:"Automated / Algorithmic Trading Bots", tag:"AI Automation",
-        overview:"This is where AI actually places trades for you. Powerful — and dangerous without proper guardrails.",
-        keyPoints:["3Commas / Cryptohopper — bot platforms (mainly crypto) for rule-based or AI-assisted trading, no coding needed.","Trade Ideas (Holly AI) — connects to Interactive Brokers for semi/fully automated execution.","QuantConnect / Alpaca — code your own algorithm in Python and run it via API.","Composer.trade — no-code platform to build rule-based automated strategies.","EVERY bot needs: tested strategy, max daily loss limit, and a kill switch you can hit instantly."],
-        diagram:"aiPipeline",
-        practice:"Create a free account on Composer.trade OR 3Commas. Build ONE simple moving average crossover strategy. Run in paper/simulation mode only.",
-        videos:["Composer.trade No-Code Bot Tutorial — Composer Official","Alpaca API for Algo Trading — Alpaca Official","3Commas Bot Setup Guide — 3Commas Official"],
-        quiz:["What is a 'kill switch' and why is it mandatory?","Name 2 platforms for building automated strategies without coding."]
-      },
-      { day:35, title:"Setting Up Your Automated AI Trading System", tag:"Step-by-Step Setup",
-        overview:"A complete, safe walkthrough for connecting an AI-assisted strategy to live execution. Follow every step in order.",
-        keyPoints:["STEP 1 — Strategy first: only automate a strategy you've backtested manually (Day 18).","STEP 2 — Choose platform: no-code (Composer, 3Commas) or API-based (Alpaca + Python).","STEP 3 — Connect broker via API: NEVER share API keys with withdrawal permissions — trade-only.","STEP 4 — Set hard guardrails BEFORE activating: max position size, max daily loss (3%), auto-shutoff.","STEP 5 — Paper trade the bot for 30 days minimum. STEP 6 — Go live at 10-20% position size."],
-        diagram:"aiSetup",
-        practice:"Write your AI automation safety checklist: strategy source, platform, max daily loss %, max position size, kill-switch method, paper-trading period.",
-        videos:["Algo Trading Risk Controls — QuantConnect","How to Connect Alpaca API Safely — Alpaca Official"],
-        quiz:["What is the minimum paper-trading period before going live with a bot?","Why should API keys never have withdrawal permissions?"]
-      },
-      { day:36, title:"AI Trading Pitfalls & Ethical Limits", tag:"Risk Awareness",
-        overview:"AI trading tools are marketed aggressively and often oversold. Know the red flags before you trust any AI product.",
-        keyPoints:["Red flag #1: 'Guaranteed returns' or 'AI never loses' — no legitimate tool claims this. Run.","Red flag #2: Backtested results with no live track record — backtests are easy to cherry-pick.","Red flag #3: Bots requiring you to deposit funds into THEIR wallet — common scam structure.","AI models can hallucinate financial data — always verify numbers against primary sources.","Check SEC/FINRA registration for any 'AI investment advisor' promising managed returns."],
-        diagram:null,
-        practice:"Research one AI trading tool advertised on social media. Identify which red flags apply. Would you trust it with real money? Write your reasoning.",
-        videos:["AI Trading Scams to Avoid — Trading Channel","SEC Investor Alerts on AI Trading Claims — SEC.gov"],
-        quiz:["Name 2 red flags of a likely AI trading scam.","Where can you verify if an investment advisor is properly registered?"]
-      }
-    ]
-  }
-];
-
-const liveChecklist = [
+var goLiveItems = [
   "Completed 50+ paper trades",
   "Win rate ≥ 50% overall",
   "Profitable on paper overall",
@@ -263,629 +594,308 @@ const liveChecklist = [
   "Not chasing get-rich-quick results"
 ];
 
-/* ── DIAGRAM COMPONENTS ── */
-const MarketDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:16,margin:"12px 0"}}>
-    <svg width="100%" height="180" viewBox="0 0 700 180">
-      {[{x:110,label:"STOCKS",sub:"NYSE/NASDAQ",color:"#10b981"},{x:350,label:"FOREX",sub:"24/5 OTC",color:SHA_GOLD},{x:590,label:"OPTIONS",sub:"CBOE",color:"#a78bfa"}].map(m=>(
-        <g key={m.label}>
-          <circle cx={m.x} cy={85} r={65} fill={m.color} opacity={0.12}/>
-          <circle cx={m.x} cy={85} r={65} fill="none" stroke={m.color} strokeWidth="2"/>
-          <text x={m.x} y={80} textAnchor="middle" fontSize="16" fontWeight="bold" fill={m.color}>{m.label}</text>
-          <text x={m.x} y={98} textAnchor="middle" fontSize="12" fill="#9ca3af">{m.sub}</text>
-        </g>
-      ))}
-      <text x="350" y="165" textAnchor="middle" fontSize="12" fill="#6b7280">All three accessible from your broker account</text>
-    </svg>
-  </div>
-);
+// ── STATE ─────────────────────────────────────────────────────
+var completedLessons = {};
+var goLiveChecked = [];
+var trades = [];
 
-const RiskCalcDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:16,margin:"12px 0"}}>
-    <p style={{textAlign:"center",fontFamily:"monospace",color:SHA_GOLD,marginBottom:12,fontSize:14}}>Position Size = (Account × Risk%) ÷ (Entry − Stop)</p>
-    <svg width="100%" height="120" viewBox="0 0 700 120">
-      {[{val:"$10,000",label:"Account",color:"#3b82f6"},{val:"× 1%",label:"Risk %",color:SHA_GOLD},{val:"= $100",label:"Max Loss",color:"#ef4444"},{val:"÷ $2",label:"Risk/Share",color:"#a78bfa"},{val:"= 50",label:"Shares",color:"#10b981"}].map((item,i)=>(
-        <g key={i}>
-          <rect x={i*140+5} y={15} width={130} height={75} rx={8} fill={item.color} opacity={0.12}/>
-          <rect x={i*140+5} y={15} width={130} height={75} rx={8} fill="none" stroke={item.color} strokeWidth="2"/>
-          <text x={i*140+70} y={55} textAnchor="middle" fontSize="20" fontWeight="bold" fill={item.color}>{item.val}</text>
-          <text x={i*140+70} y={76} textAnchor="middle" fontSize="11" fill="#9ca3af">{item.label}</text>
-        </g>
-      ))}
-    </svg>
-  </div>
-);
-
-const CandlesDiagram1 = () => (
-  <div style={{background:"#111",borderRadius:12,padding:12,margin:"12px 0"}}>
-    <p style={{textAlign:"center",color:"#9ca3af",fontSize:12,marginBottom:8}}>Single Candle Patterns</p>
-    <svg width="100%" height="180" viewBox="0 0 700 180">
-      <Candle open={90} close={92} high={55} low={130} x={88} w={12}/>
-      <text x={88} y={158} textAnchor="middle" fontSize="13" fill={SHA_GOLD}>Doji</text>
-      <text x={88} y={172} textAnchor="middle" fontSize="11" fill="#9ca3af">Indecision</text>
-      <Candle open={75} close={70} high={68} low={130} x={213} w={16}/>
-      <text x={213} y={158} textAnchor="middle" fontSize="13" fill="#10b981">Hammer</text>
-      <text x={213} y={172} textAnchor="middle" fontSize="11" fill="#9ca3af">Bullish rev.</text>
-      <Candle open={120} close={115} high={55} low={122} x={338} w={16}/>
-      <text x={338} y={158} textAnchor="middle" fontSize="13" fill="#ef4444">Shooting Star</text>
-      <text x={338} y={172} textAnchor="middle" fontSize="11" fill="#9ca3af">Bearish rev.</text>
-      <Candle open={130} close={60} high={60} low={130} x={463} w={22}/>
-      <text x={463} y={158} textAnchor="middle" fontSize="13" fill="#10b981">Bull Marubozu</text>
-      <text x={463} y={172} textAnchor="middle" fontSize="11" fill="#9ca3af">Strong bull</text>
-      <Candle open={60} close={130} high={60} low={130} x={600} w={22}/>
-      <text x={600} y={158} textAnchor="middle" fontSize="13" fill="#ef4444">Bear Marubozu</text>
-      <text x={600} y={172} textAnchor="middle" fontSize="11" fill="#9ca3af">Strong bear</text>
-    </svg>
-  </div>
-);
-
-const CandlesDiagram2 = () => (
-  <div style={{background:"#111",borderRadius:12,padding:12,margin:"12px 0"}}>
-    <p style={{textAlign:"center",color:"#9ca3af",fontSize:12,marginBottom:8}}>Multi-Candle Patterns</p>
-    <svg width="100%" height="210" viewBox="0 0 700 210">
-      <text x={88} y={18} textAnchor="middle" fontSize="12" fill="#10b981">Bullish Engulfing</text>
-      <Candle open={100} close={120} high={98} low={122} x={73} w={14}/>
-      <Candle open={135} close={78} high={76} low={137} x={103} w={28}/>
-      <text x={88} y={175} textAnchor="middle" fontSize="11" fill="#9ca3af">Small red → Big green</text>
-      <text x={238} y={18} textAnchor="middle" fontSize="12" fill="#ef4444">Bearish Engulfing</text>
-      <Candle open={120} close={100} high={98} low={122} x={223} w={14}/>
-      <Candle open={78} close={135} high={137} low={76} x={253} w={28}/>
-      <text x={238} y={175} textAnchor="middle" fontSize="11" fill="#9ca3af">Small green → Big red</text>
-      <text x={413} y={18} textAnchor="middle" fontSize="12" fill="#10b981">Morning Star</text>
-      <Candle open={78} close={135} high={137} low={76} x={378} w={18}/>
-      <Candle open={143} close={146} high={141} low={148} x={413} w={8}/>
-      <Candle open={158} close={98} high={96} low={160} x={448} w={18}/>
-      <text x={413} y={175} textAnchor="middle" fontSize="11" fill="#9ca3af">Red → Doji → Green</text>
-      <text x={588} y={18} textAnchor="middle" fontSize="12" fill="#ef4444">Evening Star</text>
-      <Candle open={135} close={78} high={76} low={137} x={553} w={18}/>
-      <Candle open={70} close={67} high={64} low={73} x={588} w={8}/>
-      <Candle open={58} close={125} high={127} low={56} x={623} w={18}/>
-      <text x={588} y={175} textAnchor="middle" fontSize="11" fill="#9ca3af">Green → Doji → Red</text>
-      <text x={350} y={200} textAnchor="middle" fontSize="11" fill={SHA_GOLD}>⚠ Always confirm with S/R level + volume</text>
-    </svg>
-  </div>
-);
-
-const SRDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:12,margin:"12px 0"}}>
-    <svg width="100%" height="240" viewBox="0 0 700 240">
-      {[200,180,160,140,120,100].map((p,i)=>(
-        <g key={p}><line x1={55} y1={25+i*38} x2={650} y2={25+i*38} stroke="#1f2937" strokeWidth="1"/><text x={48} y={30+i*38} fontSize="11" fill="#6b7280" textAnchor="end">${p}</text></g>
-      ))}
-      {[{o:48,c:68,h:44,l:72,x:100},{o:68,c:53,h:50,l:71,x:135},{o:53,c:68,h:50,l:71,x:170},{o:68,c:78,h:76,l:71,x:205},{o:78,c:63,h:60,l:81,x:240},{o:63,c:76,h:74,l:66,x:275},{o:76,c:103,h:101,l:78,x:310},{o:103,c:93,h:90,l:106,x:345},{o:93,c:108,h:106,l:95,x:380},{o:108,c:103,h:100,l:111,x:415},{o:103,c:120,h:118,l:105,x:450},{o:120,c:110,h:107,l:123,x:485},{o:110,c:126,h:124,l:112,x:520},{o:126,c=116,h:113,l:129,x:555},{o:116,c:133,h:131,l:118,x:590},{o:133,c:146,h:144,l:135,x:625}].map((c,i)=><Candle key={i} open={c.o} close={c.c} high={c.h} low={c.l} x={c.x} w={12}/>)}
-      <line x1={55} y1={63} x2={650} y2={63} stroke="#10b981" strokeWidth="3" strokeDasharray="8,4"/>
-      <rect x={530} y={48} width={115} height={22} rx={4} fill="#16241D" stroke="#10b981" strokeWidth="1.5"/>
-      <text x={588} y={63} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#10b981">SUPPORT $190</text>
-      <line x1={55} y1={139} x2={650} y2={139} stroke="#ef4444" strokeWidth="3" strokeDasharray="8,4"/>
-      <rect x={522} y={124} width={128} height={22} rx={4} fill="#16241D" stroke="#ef4444" strokeWidth="1.5"/>
-      <text x={586} y={139} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#ef4444">RESISTANCE $170</text>
-      <circle cx={170} cy={63} r={8} fill="none" stroke="#10b981" strokeWidth={3}/>
-      <circle cx={310} cy={63} r={8} fill="none" stroke="#10b981" strokeWidth={3}/>
-      <text x={350} y={228} textAnchor="middle" fontSize="12" fill="#6b7280">More bounces = stronger the level</text>
-    </svg>
-  </div>
-);
-
-const TrendlinesDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:12,margin:"12px 0"}}>
-    <svg width="100%" height="200" viewBox="0 0 700 200">
-      <text x={170} y={15} textAnchor="middle" fontSize="14" fill="#10b981" fontWeight="bold">UPTREND — Connect Higher Lows</text>
-      {[{o:155,c:138,h:135,l:158,x:80},{o:138,c:124,h:121,l:141,x:115},{o:124,c:108,h:105,l=127,x:150},{o:108,c:93,h:90,l:111,x:185},{o:93,c:76,h:73,l:96,x:220},{o:76,c:61,h:58,l:79,x:255},{o:61,c:46,h:43,l:64,x:290}].map((c,i)=><Candle key={i} open={c.o} close={c.c} high={c.h} low={c.l} x={c.x} w={11}/>)}
-      <line x1={80} y1={158} x2={290} y2={64} stroke="#10b981" strokeWidth="3"/>
-      <circle cx={80} cy={158} r={5} fill="#10b981"/><circle cx={185} cy={111} r={5} fill="#10b981"/><circle cx={290} cy={64} r={5} fill="#10b981"/>
-      <text x={530} y={15} textAnchor="middle" fontSize="14" fill="#ef4444" fontWeight="bold">DOWNTREND — Connect Lower Highs</text>
-      {[{o:48,c:68,h:71,l:45,x:430},{o:68,c:83,h:86,l:65,x:465},{o:83,c:98,h:101,l:80,x:500},{o:98,c:113,h:116,l:95,x:535},{o:113,c:128,h:131,l:110,x:570},{o:128,c:143,h:146,l:125,x:605},{o:143,c:158,h:161,l:140,x:640}].map((c,i)=><Candle key={i} open={c.o} close={c.c} high={c.h} low={c.l} x={c.x} w={11}/>)}
-      <line x1={430} y1={45} x2={640} y2={140} stroke="#ef4444" strokeWidth="3"/>
-      <circle cx={430} cy={45} r={5} fill="#ef4444"/><circle cx={535} cy={95} r={5} fill="#ef4444"/><circle cx={640} cy={140} r={5} fill="#ef4444"/>
-    </svg>
-  </div>
-);
-
-const MAsDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:12,margin:"12px 0"}}>
-    <svg width="100%" height="210" viewBox="0 0 700 210">
-      {[{o:165,c:150,h:147,l:168,x:80},{o:150,c:138,h:135,l:153,x:115},{o:138,c=125,h:122,l:141,x:150},{o:125,c:113,h:110,l:128,x:185},{o:113,c:125,h:128,l:110,x:220},{o:125,c:113,h:110,l:128,x:255},{o:113,c:98,h:95,l:116,x:290},{o:98,c:83,h:80,l:101,x:325},{o:83,c:95,h:98,l:80,x:360},{o:95,c:80,h:77,l=98,x:395},{o:80,c:65,h:62,l:83,x:430},{o:65,c:50,h:47,l:68,x:465},{o:50,c:37,h:34,l:53,x:500}].map((c,i)=><Candle key={i} open={c.o} close={c.c} high={c.h} low={c.l} x={c.x} w={11}/>)}
-      <path d="M80,150 Q150,132 220,122 T360,88 T500,40" stroke="#3b82f6" strokeWidth="2.5" fill="none"/>
-      <text x={520} y={38} fontSize="13" fill="#3b82f6" fontWeight="bold">20 EMA</text>
-      <path d="M80,145 Q220,130 360,100 T500,58" stroke={SHA_GOLD} strokeWidth="2.5" fill="none"/>
-      <text x={520} y={58} fontSize="13" fill={SHA_GOLD} fontWeight="bold">50 SMA</text>
-      <path d="M80,138 Q280,125 500,95" stroke="#ef4444" strokeWidth="3" fill="none"/>
-      <text x={520} y={96} fontSize="13" fill="#ef4444" fontWeight="bold">200 SMA</text>
-      <circle cx={220} cy={122} r={8} fill="none" stroke="#10b981" strokeWidth={3}/>
-      <text x={228} y={113} fontSize="11" fill="#10b981">Buy #1</text>
-      <circle cx={360} cy={88} r={8} fill="none" stroke="#10b981" strokeWidth={3}/>
-      <text x={368} y={79} fontSize="11" fill="#10b981">Buy #2</text>
-      <text x={350} y={198} textAnchor="middle" fontSize="12" fill="#6b7280">Strategy: Buy pullbacks to 20 EMA when price is above 200 SMA</text>
-    </svg>
-  </div>
-);
-
-const StopLossDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:12,margin:"12px 0"}}>
-    <svg width="100%" height="220" viewBox="0 0 700 220">
-      {[{o:155,c:140,h:137,l:158,x:80},{o:140,c:125,h:122,l=143,x:115},{o:125,c:113,h:110,l:128,x:150},{o:113,c:125,h:128,l:110,x:185},{o:125,c:110,h:107,l:128,x:220},{o:110,c:95,h:92,l:113,x:255},{o:95,c:83,h:80,l:98,x:290}].map((c,i)=><Candle key={i} open={c.o} close={c.c} high={c.h} low={c.l} x={c.x} w={11}/>)}
-      <line x1={55} y1={110} x2={640} y2={110} stroke="#3b82f6" strokeWidth="3" strokeDasharray="8,4"/>
-      <text x={350} y={102} textAnchor="middle" fontSize="13" fill="#3b82f6" fontWeight="bold">SUPPORT $180</text>
-      <line x1={55} y1={125} x2={640} y2={125} stroke="#ef4444" strokeWidth="3"/>
-      <text x={350} y={145} textAnchor="middle" fontSize="13" fill="#ef4444" fontWeight="bold">STOP LOSS $178 (just below support)</text>
-      <circle cx={290} cy={83} r={9} fill="#10b981" stroke="white" strokeWidth="2"/>
-      <text x={305} y={78} fontSize="13" fill="#10b981">ENTRY $185</text>
-      <line x1={55} y1={40} x2={640} y2={40} stroke="#10b981" strokeWidth="2" strokeDasharray="4,2"/>
-      <text x={350} y={33} textAnchor="middle" fontSize="13" fill="#10b981">TARGET $193 (1:3 R:R)</text>
-      <text x={350} y={205} textAnchor="middle" fontSize="12" fill="#6b7280">Stop goes just BELOW support — exits only if support truly breaks</text>
-    </svg>
-  </div>
-);
-
-const PatternsDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:12,margin:"12px 0"}}>
-    <svg width="100%" height="200" viewBox="0 0 700 200">
-      <text x={100} y={14} textAnchor="middle" fontSize="13" fill={SHA_GOLD}>Bull Flag</text>
-      {[{o:168,c:143,h:141,l:170,x:55},{o:143,c:116,h:114,l:145,x:75},{o:116,c:90,h:88,l:118,x:95},{o:90,c:79,h:77,l:92,x:120},{o:79,c:85,h:83,l:81,x:140},{o:85,c:80,h:78,l:87,x:158},{o:80,c:76,h:74,l:82,x:176},{o:76,c:50,h:48,l=78,x:200},{o:50,c:28,h:26,l:52,x:220}].map((c,i)=><Candle key={i} open={c.o} close={c.c} high={c.h} low={c.l} x={c.x} w={10}/>)}
-      <line x1={114} y1={77} x2={190} y2={88} stroke="#f59e0b" strokeWidth="2" strokeDasharray="4,2"/>
-      <line x1={114} y1={93} x2={190} y2={104} stroke="#f59e0b" strokeWidth="2" strokeDasharray="4,2"/>
-      <text x={130} y={138} textAnchor="middle" fontSize="10" fill="#9ca3af">Flag</text>
-      <text x={395} y={14} textAnchor="middle" fontSize="13" fill={SHA_GOLD}>Head & Shoulders</text>
-      <Candle open={165} close={152} high={150} low={167} x={340} w={11}/>
-      <Candle open={152} close={138} high={135} low=154 x={360} w={11}/>
-      <Candle open={138} close={120} high={117} low={140} x={380} w={11}/>
-      <Candle open={120} close={138} high={140} low={117} x={400} w={11}/>
-      <Candle open={138} close={108} high={105} low={140} x={420} w={11}/>
-      <Candle open={108} close={125} high={128} low={105} x={440} w={11}/>
-      <Candle open={125} close={116} high={113} low={127} x={460} w={11}/>
-      <Candle open={116} close={130} high={133} low={113} x={480} w={11}/>
-      <Candle open={130} close={148} high={151} low={127} x={500} w={11}/>
-      <line x1={335} y1={158} x2={545} y2={158} stroke="#ef4444" strokeWidth="2" strokeDasharray="6,3"/>
-      <text x={375} y={152} fontSize="11" fill="#ef4444">Neckline</text>
-      <text x={420} y={105} fontSize="11" fill="#9ca3af">Head</text>
-      <text x={346} y={126} fontSize="10" fill="#9ca3af">L.Sh</text>
-      <text x={484} y={126} fontSize="10" fill="#9ca3af">R.Sh</text>
-      <text x={420} y={185} textAnchor="middle" fontSize="11" fill="#9ca3af">Neckline break = short entry</text>
-    </svg>
-  </div>
-);
-
-const JournalDiagram = () => (
-  <div style={{borderRadius:12,overflow:"hidden",margin:"12px 0",border:"1px solid #374151"}}>
-    <div style={{background:SHA_GREEN,padding:10}}><p style={{color:"#fff",fontWeight:"bold",textAlign:"center",fontSize:14}}>TRADE LOG — COMPLETE EXAMPLE</p></div>
-    <div style={{background:"#111",padding:16,display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-      {[["Date","2024-04-26"],["Asset","AAPL"],["Direction","LONG (Buy)"],["Entry","$150.00"],["Stop Loss","$147.50"],["Target","$155.00"],["Size","40 shares"],["Risk","$100 (1%)"],["R:R","1:2 ✅"],["Result","WIN → +$200"]].map(([k,v])=>(
-        <div key={k} style={{background:"#1f2937",borderRadius:8,padding:"8px 10px"}}>
-          <div style={{color:"#6b7280",fontSize:11}}>{k}</div>
-          <div style={{color:"#fff",fontWeight:600,fontSize:13}}>{v}</div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const AIOverviewDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:16,margin:"12px 0"}}>
-    <svg width="100%" height="170" viewBox="0 0 700 170">
-      {[{x:110,label:"ANALYSIS",sub:"Scan & screen charts",color:"#06b6d4"},{x:350,label:"RESEARCH",sub:"AI chat assistants",color:SHA_GOLD},{x:590,label:"AUTOMATION",sub:"Bots & execution",color:"#a78bfa"}].map(m=>(
-        <g key={m.label}>
-          <circle cx={m.x} cy={75} r={58} fill={m.color} opacity={0.12}/>
-          <circle cx={m.x} cy={75} r={58} fill="none" stroke={m.color} strokeWidth="2"/>
-          <text x={m.x} y={70} textAnchor="middle" fontSize="15" fontWeight="bold" fill={m.color}>{m.label}</text>
-          <text x={m.x} y={88} textAnchor="middle" fontSize="11" fill="#9ca3af">{m.sub}</text>
-        </g>
-      ))}
-      <line x1={168} y1={75} x2={292} y2={75} stroke="#4b5563" strokeWidth="2"/>
-      <polygon points="292,70 302,75 292,80" fill="#4b5563"/>
-      <line x1={408} y1={75} x2={532} y2={75} stroke="#4b5563" strokeWidth="2"/>
-      <polygon points="532,70 542,75 532,80" fill="#4b5563"/>
-      <text x="350" y="155" textAnchor="middle" fontSize="12" fill="#6b7280">AI assists every stage — YOUR risk rules still govern every trade</text>
-    </svg>
-  </div>
-);
-
-const AIChatFlowDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:16,margin:"12px 0"}}>
-    <svg width="100%" height="160" viewBox="0 0 700 160">
-      {[{x:95,label:"You Provide",sub:"Plan, data, screenshots",color:"#3b82f6"},{x:350,label:"AI Analyzes",sub:"Claude/ChatGPT/Perplexity",color:SHA_GOLD},{x:605,label:"You Decide",sub:"Verify + apply your rules",color:"#10b981"}].map(m=>(
-        <g key={m.label}>
-          <rect x={m.x-88} y={30} width={176} height={70} rx={10} fill={m.color} opacity={0.12}/>
-          <rect x={m.x-88} y={30} width={176} height={70} rx={10} fill="none" stroke={m.color} strokeWidth="2"/>
-          <text x={m.x} y={63} textAnchor="middle" fontSize="14" fontWeight="bold" fill={m.color}>{m.label}</text>
-          <text x={m.x} y={82} textAnchor="middle" fontSize="11" fill="#9ca3af">{m.sub}</text>
-        </g>
-      ))}
-      <line x1={183} y1={65} x2={262} y2={65} stroke="#4b5563" strokeWidth="2"/>
-      <polygon points="262,60 272,65 262,70" fill="#4b5563"/>
-      <line x1={438} y1={65} x2={517} y2={65} stroke="#4b5563" strokeWidth="2"/>
-      <polygon points="517,60 527,65 517,70" fill="#4b5563"/>
-      <text x="350" y="140" textAnchor="middle" fontSize="12" fill="#ef4444">⚠ AI cannot see live prices — always verify on your broker/chart</text>
-    </svg>
-  </div>
-);
-
-const AIPipelineDiagram = () => (
-  <div style={{background:"#111",borderRadius:12,padding:16,margin:"12px 0"}}>
-    <svg width="100%" height="230" viewBox="0 0 700 230">
-      {[{x:80,label:"Tested\nStrategy",color:"#10b981"},{x:240,label:"No-Code\nor API",color:"#06b6d4"},{x:400,label:"Broker\nAPI Key",color:SHA_GOLD},{x:560,label:"Live\nExecution",color:"#a78bfa"}].map((s,i)=>(
-        <g key={i}>
-          <rect x={s.x-70} y={30} width={140} height={65} rx={10} fill={s.color} opacity={0.12}/>
-          <rect x={s.x-70} y={30} width={140} height={65} rx={10} fill="none" stroke={s.color} strokeWidth="2"/>
-          {s.label.split("\n").map((line,li)=>(
-            <text key={li} x={s.x} y={58+li*18} textAnchor="middle" fontSize="13" fontWeight="bold" fill={s.color}>{line}</text>
-          ))}
-        </g>
-      ))}
-      {[160,320,480].map(lx=>(
-        <g key={lx}><line x1={lx} y1={62} x2={lx+20} y2={62} stroke="#4b5563" strokeWidth="2"/><polygon points={`${lx+20},57 ${lx+30},62 ${lx+20},67`} fill="#4b5563"/></g>
-      ))}
-      <rect x={100} y={145} width={500} height={55} rx={10} fill="#2d0d0d" stroke="#ef4444" strokeWidth="2"/>
-      <text x={350} y={170} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#ef4444">🛑 REQUIRED GUARDRAILS:</text>
-      <text x={350} y={190} textAnchor="middle" fontSize="12" fill="#fca5a5">Max daily loss limit · Max position size · Kill switch · Trade-only API</text>
-    </svg>
-  </div>
-);
-
-const AISetupDiagram = () => (
-  <div style={{borderRadius:12,overflow:"hidden",margin:"12px 0",border:"1px solid #374151"}}>
-    <div style={{background:"#0e7490",padding:10}}><p style={{color:"#fff",fontWeight:"bold",textAlign:"center",fontSize:14}}>AI BOT SETUP — 6-STEP SAFETY CHECKLIST</p></div>
-    <div style={{background:"#111",padding:16,display:"flex",flexDirection:"column",gap:8}}>
-      {[["1","Backtested strategy ready (50+ trades, Day 18)"],["2","Platform chosen: no-code (Composer/3Commas) or API (Alpaca)"],["3","Broker connected — TRADE-ONLY API key, no withdrawal permissions"],["4","Hard guardrails set: max position size + 3% daily loss auto-shutoff"],["5","Paper trade the bot for minimum 30 days — compare to manual backtest"],["6","Go live at 10-20% position size — monitor daily for first month"]].map(([n,t])=>(
-        <div key={n} style={{display:"flex",alignItems:"center",gap:12,background:"#1f2937",borderRadius:8,padding:"10px 12px"}}>
-          <div style={{width:28,height:28,borderRadius:"50%",background:"#0e7490",color:"#fff",fontWeight:"bold",fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{n}</div>
-          <span style={{color:"#e5e7eb",fontSize:13}}>{t}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const diagramMap = {
-  markets:MarketDiagram, riskCalc:RiskCalcDiagram, candles1:CandlesDiagram1,
-  candles2:CandlesDiagram2, sr:SRDiagram, trendlines:TrendlinesDiagram,
-  mas:MAsDiagram, stopLoss:StopLossDiagram, patterns:PatternsDiagram,
-  journal:JournalDiagram, aiOverview:AIOverviewDiagram, aiChatFlow:AIChatFlowDiagram,
-  aiPipeline:AIPipelineDiagram, aiSetup:AISetupDiagram
-};
-
-/* ── MAIN APP ── */
-function App() {
-  const [view,setView]             = React.useState("home");
-  const [activeWeek,setActiveWeek] = React.useState(null);
-  const [activeDay,setActiveDay]   = React.useState(null);
-  const [activeTool,setActiveTool] = React.useState("calc");
-  const [completed,setCompleted]   = React.useState([]);
-  const [checks,setChecks]         = React.useState([]);
-
-  const [acct,setAcct]     = React.useState(10000);
-  const [rPct,setRPct]     = React.useState(1);
-  const [entP,setEntP]     = React.useState(150);
-  const [stpP,setStpP]     = React.useState(148);
-  const [tgtP,setTgtP]     = React.useState(154);
-  const rAmt    = acct * rPct / 100;
-  const rShare  = Math.abs(entP - stpP);
-  const posSize = rShare > 0 ? Math.floor(rAmt / rShare) : 0;
-  const reward  = Math.abs(tgtP - entP);
-  const rr      = rShare > 0 ? (reward / rShare).toFixed(2) : "0.00";
-  const profit  = (posSize * reward).toFixed(2);
-
-  const [trades,setTrades] = React.useState([]);
-  const emptyForm = {date:new Date().toISOString().split("T")[0],asset:"",dir:"long",entry:"",stop:"",target:"",size:"",result:"open",pnl:"",notes:""};
-  const [form,setForm]     = React.useState(emptyForm);
-
-  const addTrade = () => {
-    if (!form.asset || !form.entry) return;
-    setTrades(p=>[...p,{...form,id:Date.now()}]);
-    setForm(emptyForm);
-  };
-
-  const allDays    = weeks.flatMap(w=>w.days);
-  const totalLessons = allDays.length;
-  const pct        = Math.round((completed.length/totalLessons)*100);
-  const wins       = trades.filter(t=>t.result==="win").length;
-  const losses     = trades.filter(t=>t.result==="loss").length;
-  const netPnL     = trades.reduce((s,t)=>s+(parseFloat(t.pnl)||0),0);
-  const winRate    = trades.length>0?((wins/trades.length)*100).toFixed(0):0;
-
-  const curDay     = activeDay ? allDays.find(d=>d.day===activeDay) : null;
-  const curWeekDat = activeWeek ? weeks.find(w=>w.id===activeWeek) : null;
-  const dayWeek    = curDay ? weeks.find(w=>w.days.some(d=>d.day===curDay.day)) : null;
-
-  const toggleComplete = id => setCompleted(p=>p.includes(id)?p.filter(d=>d!==id):[...p,id]);
-
-  const S = (styles) => Object.assign({},styles);
-
-  /* HOME */
-  if (view==="home") return (
-    <div style={{minHeight:"100vh",background:SHA_DARK}}>
-      <div style={{background:`linear-gradient(135deg,${SHA_GREEN} 0%,#1a3d2b 60%,#0d1f16 100%)`,padding:"40px 24px 48px"}}>
-        <div style={{maxWidth:680,margin:"0 auto",textAlign:"center"}}>
-          <div style={{display:"inline-block",background:SHA_GOLD,color:SHA_DARK,fontSize:11,fontWeight:700,letterSpacing:3,padding:"4px 14px",borderRadius:20,marginBottom:16}}>SMARTER HUSTLE ACADEMY™</div>
-          <h1 style={{fontSize:"clamp(32px,6vw,52px)",fontWeight:800,color:"#fff",lineHeight:1.15,marginBottom:16}}>30-Day Elite<br/><span style={{color:SHA_GOLD}}>Trading Mastery</span><br/>Academy</h1>
-          <p style={{color:"#a7f3d0",fontSize:16,marginBottom:28}}>Complete foundation-to-advanced trading education + Bonus AI & Automation module.</p>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:28,maxWidth:480,margin:"0 auto 28px"}}>
-            {["36 Daily Lessons","Visual Chart Diagrams","Position Calculator","AI Tools & Bot Setup"].map(f=>(
-              <div key={f} style={{background:"rgba(255,255,255,0.1)",borderRadius:8,padding:"10px 14px",color:"#fff",fontSize:13}}>✓ {f}</div>
-            ))}
-          </div>
-          <div style={{background:"rgba(0,0,0,0.3)",borderRadius:99,height:14,overflow:"hidden",marginBottom:8}}>
-            <div style={{width:`${pct}%`,background:SHA_GOLD,height:"100%",borderRadius:99,transition:"width .5s"}}/>
-          </div>
-          <p style={{color:"#6ee7b7",fontSize:13}}>{completed.length} of {totalLessons} lessons complete ({pct}%)</p>
-        </div>
-      </div>
-      <div style={{maxWidth:680,margin:"0 auto",padding:"24px 16px"}}>
-        {weeks.map(w=>{
-          const done=w.days.filter(d=>completed.includes(d.day)).length;
-          return (
-            <div key={w.id} onClick={()=>{setActiveWeek(w.id);setView("week");}} style={{borderRadius:16,overflow:"hidden",marginBottom:14,cursor:"pointer",boxShadow:"0 4px 20px rgba(0,0,0,0.4)"}}>
-              <div style={{background:w.color,padding:"20px 24px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <div>
-                  <div style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"rgba(255,255,255,0.7)"}}>{w.label}</div>
-                  <div style={{fontSize:20,fontWeight:800,color:"#fff",marginTop:4}}>{w.title}</div>
-                  <div style={{fontSize:13,color:"rgba(255,255,255,0.7)",marginTop:2}}>{done}/{w.days.length} lessons complete</div>
-                </div>
-                <div style={{fontSize:56,fontWeight:900,color:"rgba(255,255,255,0.15)"}}>{w.id}</div>
-              </div>
-              <div style={{height:5,background:"#111"}}>
-                <div style={{width:`${(done/w.days.length)*100}%`,background:SHA_GOLD,height:"100%",transition:"width .5s"}}/>
-              </div>
-            </div>
-          );
-        })}
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginTop:8}}>
-          <button onClick={()=>setView("tools")} style={{background:"#1e40af",borderRadius:14,padding:"20px 16px",color:"#fff",fontSize:16,fontWeight:700}}>🧮 Trading Tools</button>
-          <button onClick={()=>setView("checklist")} style={{background:"#6d28d9",borderRadius:14,padding:"20px 16px",color:"#fff",fontSize:16,fontWeight:700}}>✅ Go-Live Checklist</button>
-        </div>
-        <p style={{textAlign:"center",color:"#374151",fontSize:11,marginTop:24}}>© 2024 Smarter Hustle Academy™ · Educational Purposes Only</p>
-      </div>
-    </div>
-  );
-
-  /* WEEK */
-  if (view==="week" && curWeekDat) return (
-    <div style={{minHeight:"100vh",background:SHA_DARK}}>
-      <div style={{background:curWeekDat.color,padding:"24px 20px"}}>
-        <button onClick={()=>setView("home")} style={{background:"none",color:"rgba(255,255,255,0.65)",fontSize:14,marginBottom:12}}>← Back</button>
-        <div style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"rgba(255,255,255,0.65)"}}>{curWeekDat.label}</div>
-        <h2 style={{fontSize:26,fontWeight:800,color:"#fff",marginTop:4}}>{curWeekDat.title}</h2>
-      </div>
-      <div style={{maxWidth:680,margin:"0 auto",padding:"16px"}}>
-        {curWeekDat.days.map(d=>{
-          const done=completed.includes(d.day);
-          return (
-            <div key={d.day} style={{background:"#1a1a1a",borderRadius:14,marginBottom:10,overflow:"hidden"}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"16px 18px",cursor:"pointer"}} onClick={()=>{setActiveDay(d.day);setView("day");}}>
-                <div style={{display:"flex",alignItems:"center",gap:14}}>
-                  <div style={{width:40,height:40,borderRadius:"50%",background:done?SHA_GREEN:"#2a2a2a",color:done?"#fff":"#6b7280",fontWeight:700,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{done?"✓":d.day}</div>
-                  <div>
-                    <div style={{fontWeight:700,color:"#f9fafb",fontSize:15}}>{d.title}</div>
-                    <div style={{fontSize:12,color:"#6b7280",marginTop:2}}>{d.tag}</div>
-                  </div>
-                </div>
-                <span style={{color:"#6b7280",fontSize:20}}>›</span>
-              </div>
-            </div>
-          );
-        })}
-        <button onClick={()=>setView("home")} style={{width:"100%",marginTop:8,padding:"14px",borderRadius:12,background:"#2a2a2a",color:"#9ca3af",fontWeight:600,fontSize:15}}>← All Weeks</button>
-      </div>
-    </div>
-  );
-
-  /* DAY */
-  if (view==="day" && curDay) {
-    const DiagComp = curDay.diagram ? diagramMap[curDay.diagram] : null;
-    const done = completed.includes(curDay.day);
-    return (
-      <div style={{minHeight:"100vh",background:SHA_DARK,paddingBottom:96}}>
-        <div style={{background:dayWeek?.color||SHA_GREEN,padding:"24px 20px"}}>
-          <button onClick={()=>{setActiveWeek(dayWeek?.id);setView("week");}} style={{background:"none",color:"rgba(255,255,255,0.65)",fontSize:14,marginBottom:12}}>← Week {dayWeek?.id}</button>
-          <div style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"rgba(255,255,255,0.65)"}}>DAY {curDay.day} · {curDay.tag}</div>
-          <h2 style={{fontSize:22,fontWeight:800,color:"#fff",marginTop:4}}>{curDay.title}</h2>
-        </div>
-        <div style={{maxWidth:680,margin:"0 auto",padding:"16px"}}>
-          <div style={{background:"#1a1a1a",borderRadius:14,padding:20,marginBottom:12}}>
-            <p style={{color:"#d1d5db",lineHeight:1.7,fontSize:15}}>{curDay.overview}</p>
-          </div>
-          {DiagComp && <DiagComp/>}
-          <div style={{background:"#1a1a1a",borderRadius:14,padding:20,marginBottom:12}}>
-            <p style={{color:SHA_GOLD,fontWeight:700,marginBottom:14,fontSize:15}}>📌 Key Points</p>
-            {curDay.keyPoints.map((kp,i)=>(
-              <div key={i} style={{display:"flex",gap:12,marginBottom:12}}>
-                <span style={{color:SHA_GREEN,fontSize:18,marginTop:-2,flexShrink:0}}>✓</span>
-                <span style={{color:"#e5e7eb",fontSize:14,lineHeight:1.65}}>{kp}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{background:"#0d2b1e",borderRadius:14,padding:20,marginBottom:12,borderLeft:`4px solid ${SHA_GREEN}`}}>
-            <p style={{color:SHA_GREEN,fontWeight:700,marginBottom:8,fontSize:15}}>✍️ Practice Exercise</p>
-            <p style={{color:"#a7f3d0",fontSize:14,lineHeight:1.65}}>{curDay.practice}</p>
-          </div>
-          <div style={{background:"#1a1a1a",borderRadius:14,padding:20,marginBottom:12}}>
-            <p style={{color:"#60a5fa",fontWeight:700,marginBottom:12,fontSize:15}}>📹 Recommended Resources</p>
-            {curDay.videos.map((v,i)=>(
-              <div key={i} style={{display:"flex",gap:8,padding:"10px 0",borderBottom:i<curDay.videos.length-1?"1px solid #2a2a2a":"none"}}>
-                <span style={{color:"#60a5fa"}}>▶</span>
-                <span style={{color:"#93c5fd",fontSize:13}}>{v}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{background:"#1a1a1a",borderRadius:14,padding:20,marginBottom:16}}>
-            <p style={{color:SHA_GOLD,fontWeight:700,marginBottom:12,fontSize:15}}>❓ Self-Quiz</p>
-            {curDay.quiz.map((q,i)=>(
-              <div key={i} style={{padding:"10px 0",borderBottom:i<curDay.quiz.length-1?"1px solid #2a2a2a":"none"}}>
-                <p style={{color:"#d1d5db",fontSize:14}}>{i+1}. {q}</p>
-              </div>
-            ))}
-          </div>
-          <button onClick={()=>{toggleComplete(curDay.day);setView("week");}} style={{width:"100%",padding:"16px",borderRadius:14,background:done?"#374151":SHA_GREEN,color:"#fff",fontWeight:700,fontSize:16}}>
-            {done?"✓ Completed — Mark Incomplete":"✅ Mark Day Complete"}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  /* TOOLS */
-  if (view==="tools") return (
-    <div style={{minHeight:"100vh",background:SHA_DARK,paddingBottom:32}}>
-      <div style={{background:"#1e40af",padding:"24px 20px"}}>
-        <button onClick={()=>setView("home")} style={{background:"none",color:"rgba(255,255,255,0.65)",fontSize:14,marginBottom:12}}>← Home</button>
-        <h2 style={{fontSize:26,fontWeight:800,color:"#fff"}}>🧮 Trading Tools</h2>
-      </div>
-      <div style={{maxWidth:680,margin:"0 auto",padding:"16px"}}>
-        <div style={{display:"flex",gap:8,marginBottom:20}}>
-          {[["calc","Position Calc"],["journal","Trade Journal"],["stats","My Stats"]].map(([t,l])=>(
-            <button key={t} onClick={()=>setActiveTool(t)} style={{flex:1,padding:"10px 8px",borderRadius:10,fontWeight:600,fontSize:13,background:activeTool===t?SHA_GOLD:"#2a2a2a",color:activeTool===t?SHA_DARK:"#9ca3af"}}>{l}</button>
-          ))}
-        </div>
-
-        {activeTool==="calc" && (
-          <div>
-            <div style={{background:"#1a1a1a",borderRadius:14,padding:20,marginBottom:14}}>
-              <p style={{textAlign:"center",fontFamily:"monospace",color:SHA_GOLD,marginBottom:16,fontSize:13}}>Position Size = (Account × Risk%) ÷ (Entry − Stop)</p>
-              {[["Account Size ($)",acct,setAcct,1],["Risk % (1-2%)",rPct,setRPct,0.1],["Entry Price ($)",entP,setEntP,0.01],["Stop Loss ($)",stpP,setStpP,0.01],["Target Price ($)",tgtP,setTgtP,0.01]].map(([label,val,setter,step])=>(
-                <div key={label} style={{marginBottom:14}}>
-                  <label style={{display:"block",color:"#9ca3af",fontSize:12,marginBottom:6}}>{label}</label>
-                  <input type="number" step={step} value={val} onChange={e=>setter(parseFloat(e.target.value)||0)} style={{width:"100%",background:"#2a2a2a",border:"1px solid #374151",borderRadius:10,padding:"12px 16px",color:"#fff",fontSize:18,fontWeight:700}}/>
-                </div>
-              ))}
-            </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-              {[["Position Size",`${posSize} shares`,"#0d2b1e","#10b981"],["Risk-Reward",`1:${rr}`,"#1e1b4b","#3b82f6"],["Max Loss",`$${rAmt.toFixed(0)}`,"#2d0d0d","#ef4444"],["Potential Profit",`$${profit}`,"#1a1200",SHA_GOLD]].map(([l,v,bg,c])=>(
-                <div key={l} style={{background:bg,borderRadius:14,padding:16,textAlign:"center"}}>
-                  <div style={{color:c,fontSize:11,marginBottom:6}}>{l}</div>
-                  <div style={{color:c,fontSize:28,fontWeight:800}}>{v}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTool==="journal" && (
-          <div>
-            <div style={{background:"#1a1a1a",borderRadius:14,padding:20,marginBottom:14}}>
-              <p style={{color:"#fff",fontWeight:700,marginBottom:16,fontSize:15}}>Log New Trade</p>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
-                {[["Date","date","date"],["Asset (Ticker)","asset","text"],["Entry Price","entry","number"],["Stop Loss","stop","number"],["Target Price","target","number"],["Position Size","size","number"]].map(([l,k,t])=>(
-                  <div key={k}>
-                    <label style={{display:"block",color:"#9ca3af",fontSize:11,marginBottom:5}}>{l}</label>
-                    <input type={t} value={form[k]} onChange={e=>setForm({...form,[k]:e.target.value})} style={{width:"100%",background:"#2a2a2a",border:"1px solid #374151",borderRadius:8,padding:"10px 12px",color:"#fff",fontSize:14}}/>
-                  </div>
-                ))}
-              </div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
-                <div>
-                  <label style={{display:"block",color:"#9ca3af",fontSize:11,marginBottom:5}}>Direction</label>
-                  <select value={form.dir} onChange={e=>setForm({...form,dir:e.target.value})} style={{width:"100%",background:"#2a2a2a",border:"1px solid #374151",borderRadius:8,padding:"10px 12px",color:"#fff",fontSize:14}}>
-                    <option value="long">Long (Buy)</option><option value="short">Short (Sell)</option>
-                  </select>
-                </div>
-                <div>
-                  <label style={{display:"block",color:"#9ca3af",fontSize:11,marginBottom:5}}>Result</label>
-                  <select value={form.result} onChange={e=>setForm({...form,result:e.target.value})} style={{width:"100%",background:"#2a2a2a",border:"1px solid #374151",borderRadius:8,padding:"10px 12px",color:"#fff",fontSize:14}}>
-                    <option value="open">Open</option><option value="win">Win</option><option value="loss">Loss</option><option value="be">Breakeven</option>
-                  </select>
-                </div>
-              </div>
-              <div style={{marginBottom:12}}>
-                <label style={{display:"block",color:"#9ca3af",fontSize:11,marginBottom:5}}>P&L ($)</label>
-                <input type="number" step="0.01" value={form.pnl} onChange={e=>setForm({...form,pnl:e.target.value})} style={{width:"100%",background:"#2a2a2a",border:"1px solid #374151",borderRadius:8,padding:"10px 12px",color:"#fff",fontSize:14}}/>
-              </div>
-              <div style={{marginBottom:16}}>
-                <label style={{display:"block",color:"#9ca3af",fontSize:11,marginBottom:5}}>Notes & Lessons Learned</label>
-                <textarea rows={3} value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} style={{width:"100%",background:"#2a2a2a",border:"1px solid #374151",borderRadius:8,padding:"10px 12px",color:"#fff",fontSize:14,resize:"vertical"}}/>
-              </div>
-              <button onClick={addTrade} style={{width:"100%",padding:"13px",borderRadius:10,background:SHA_GREEN,color:"#fff",fontWeight:700,fontSize:15}}>+ Add Trade</button>
-            </div>
-            {trades.map(t=>(
-              <div key={t.id} style={{background:"#1a1a1a",borderRadius:12,padding:"14px 16px",marginBottom:8,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <div>
-                  <span style={{color:"#f9fafb",fontWeight:700}}>{t.asset}</span>
-                  <span style={{color:"#6b7280",fontSize:12,marginLeft:8}}>{t.date}</span>
-                  <div style={{color:"#9ca3af",fontSize:12,marginTop:4}}>{t.dir.toUpperCase()} · Entry ${t.entry} · Stop ${t.stop}</div>
-                </div>
-                <div style={{textAlign:"right"}}>
-                  <span style={{fontSize:11,fontWeight:700,padding:"3px 10px",borderRadius:20,background:t.result==="win"?"#0d2b1e":t.result==="loss"?"#2d0d0d":"#1f2937",color:t.result==="win"?"#10b981":t.result==="loss"?"#ef4444":"#9ca3af"}}>{t.result.toUpperCase()}</span>
-                  {t.pnl&&<div style={{color:parseFloat(t.pnl)>=0?"#10b981":"#ef4444",fontWeight:700,marginTop:4,fontSize:15}}>${t.pnl}</div>}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {activeTool==="stats" && (
-          <div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
-              {[["Total Trades",trades.length,"#9ca3af"],["Wins",wins,"#10b981"],["Losses",losses,"#ef4444"],["Win Rate",`${winRate}%`,parseFloat(winRate)>=50?"#10b981":"#ef4444"]].map(([l,v,c])=>(
-                <div key={l} style={{background:"#1a1a1a",borderRadius:14,padding:16,textAlign:"center"}}>
-                  <div style={{color:"#9ca3af",fontSize:12,marginBottom:6}}>{l}</div>
-                  <div style={{color:c,fontSize:32,fontWeight:800}}>{v}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{background:"#1a1a1a",borderRadius:14,padding:20,textAlign:"center",marginBottom:12}}>
-              <div style={{color:"#9ca3af",fontSize:13,marginBottom:8}}>Total Net P&L</div>
-              <div style={{color:netPnL>=0?"#10b981":"#ef4444",fontSize:44,fontWeight:800}}>${netPnL.toFixed(2)}</div>
-            </div>
-            <div style={{background:"#1a1a1a",borderRadius:14,padding:20}}>
-              <p style={{color:SHA_GOLD,fontWeight:700,marginBottom:14}}>📊 Go-Live Readiness</p>
-              {[["50+ paper trades",`${trades.length}/50`,trades.length>=50],["Win rate ≥ 50%",`${winRate}%`,parseFloat(winRate)>=50],["Net profitable",`$${netPnL.toFixed(2)}`,netPnL>0]].map(([l,v,ok])=>(
-                <div key={l} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:"1px solid #2a2a2a"}}>
-                  <span style={{color:"#9ca3af",fontSize:14}}>{l}</span>
-                  <div style={{display:"flex",gap:10,alignItems:"center"}}>
-                    <span style={{color:"#fff",fontWeight:600,fontSize:14}}>{v}</span>
-                    <span>{ok?"✅":"⏳"}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
-  /* CHECKLIST */
-  if (view==="checklist") return (
-    <div style={{minHeight:"100vh",background:SHA_DARK,paddingBottom:32}}>
-      <div style={{background:"#6d28d9",padding:"24px 20px"}}>
-        <button onClick={()=>setView("home")} style={{background:"none",color:"rgba(255,255,255,0.65)",fontSize:14,marginBottom:12}}>← Home</button>
-        <h2 style={{fontSize:24,fontWeight:800,color:"#fff"}}>✅ Go-Live Readiness Checklist</h2>
-        <p style={{color:"rgba(255,255,255,0.7)",fontSize:13,marginTop:4}}>All items required before trading real money.</p>
-      </div>
-      <div style={{maxWidth:680,margin:"0 auto",padding:"16px"}}>
-        {liveChecklist.map((item,i)=>{
-          const checked=checks.includes(i);
-          return (
-            <button key={i} onClick={()=>setChecks(p=>p.includes(i)?p.filter(x=>x!==i):[...p,i])} style={{width:"100%",textAlign:"left",borderRadius:12,padding:"14px 16px",marginBottom:8,display:"flex",alignItems:"center",gap:14,background:checked?"#0d2b1e":"#1a1a1a",border:`1px solid ${checked?SHA_GREEN:"#2a2a2a"}`,transition:"all .2s"}}>
-              <div style={{width:28,height:28,borderRadius:"50%",background:checked?SHA_GREEN:"#2a2a2a",color:"#fff",fontWeight:700,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{checked?"✓":i+1}</div>
-              <span style={{color:checked?"#a7f3d0":"#d1d5db",fontSize:14,fontWeight:500}}>{item}</span>
-            </button>
-          );
-        })}
-        <div style={{background:"#1a1a1a",borderRadius:14,padding:20,marginTop:8}}>
-          <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
-            <span style={{color:"#9ca3af",fontSize:14}}>Readiness</span>
-            <span style={{color:SHA_GOLD,fontWeight:700}}>{checks.length}/{liveChecklist.length}</span>
-          </div>
-          <div style={{background:"#2a2a2a",borderRadius:99,height:10}}>
-            <div style={{width:`${(checks.length/liveChecklist.length)*100}%`,background:SHA_GREEN,height:"100%",borderRadius:99,transition:"width .4s"}}/>
-          </div>
-          {checks.length===liveChecklist.length
-            ?<p style={{textAlign:"center",marginTop:16,color:"#10b981",fontWeight:700,fontSize:16}}>🎉 You are ready to go live! Start at 10-20% position sizes.</p>
-            :<p style={{textAlign:"center",marginTop:12,color:"#6b7280",fontSize:13}}>Complete all items before risking real capital.</p>}
-        </div>
-        <div style={{background:"#1a0d0d",borderRadius:14,padding:20,marginTop:12,borderLeft:"4px solid #ef4444"}}>
-          <p style={{color:"#ef4444",fontWeight:700,marginBottom:8}}>⚠️ Critical Warning</p>
-          <p style={{color:"#fca5a5",fontSize:14,lineHeight:1.65}}>The market will always be open tomorrow. There is no prize for rushing. Traders who go live too early blow up their accounts. Paper trade until ALL boxes are checked.</p>
-        </div>
-        <p style={{textAlign:"center",color:"#374151",fontSize:11,marginTop:24}}>© 2024 Smarter Hustle Academy™ · Educational Purposes Only</p>
-      </div>
-    </div>
-  );
-
-  return null;
+// ── NAV ───────────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
+  var pg = document.getElementById(id);
+  if(pg) pg.classList.add('active');
+  var tab = document.querySelector('[onclick="showPage(\''+id+'\')"]');
+  if(tab) tab.classList.add('active');
+  window.scrollTo(0,0);
+  if(id === 'dashboard') updateDashboard();
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App/>);
+// ── RENDER LESSONS ────────────────────────────────────────────
+function renderLessons(weekKey, containerId) {
+  var lessons = curriculum[weekKey];
+  var container = document.getElementById(containerId);
+  if(!container) return;
+  var html = '';
+  lessons.forEach(function(lesson) {
+    var done = completedLessons[lesson.id];
+    html += '<div class="lesson-item" id="li-'+lesson.id+'">';
+    html += '<div class="lesson-header" onclick="toggleLesson('+lesson.id+')">';
+    html += '<div class="lesson-num '+(done?'done':'pending')+'" id="lnum-'+lesson.id+'">'+(done?'✓':lesson.id)+'</div>';
+    html += '<div><div class="lesson-title">'+lesson.title+'</div><div class="lesson-tag">'+lesson.tag+'</div></div>';
+    html += '<div style="margin-left:auto;color:#8a9080;font-size:20px">›</div>';
+    html += '</div>';
+    html += '<div class="lesson-body" id="lb-'+lesson.id+'">';
+
+    // Key Points
+    html += '<div style="background:#111;border-radius:10px;padding:16px;margin-bottom:12px">';
+    html += '<div style="color:var(--go);font-weight:700;margin-bottom:10px;font-size:14px">📌 Key Points</div>';
+    lesson.points.forEach(function(p){
+      html += '<div class="key-point"><span class="key-dot">✓</span><span class="key-text">'+p+'</span></div>';
+    });
+    html += '</div>';
+
+    // Practice
+    html += '<div class="practice">';
+    html += '<div class="practice-title">✍️ Practice Exercise</div>';
+    html += '<div class="practice-text">'+lesson.practice+'</div>';
+    html += '</div>';
+
+    // Videos
+    html += '<div style="background:#111;border-radius:10px;padding:14px;margin-bottom:12px">';
+    html += '<div style="color:#60a5fa;font-weight:700;margin-bottom:8px;font-size:14px">📹 Resources</div>';
+    lesson.videos.forEach(function(v){
+      html += '<div class="video-link"><span>▶</span><span>'+v+'</span></div>';
+    });
+    html += '</div>';
+
+    // Complete Button
+    html += '<button onclick="toggleComplete('+lesson.id+')" id="cbtn-'+lesson.id+'" style="width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:700;color:#fff;background:'+(done?'#374151':'var(--g)')+'">';
+    html += done ? '✓ Completed — Mark Incomplete' : '✅ Mark Day Complete';
+    html += '</button>';
+
+    html += '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+function toggleLesson(id) {
+  var body = document.getElementById('lb-'+id);
+  if(!body) return;
+  body.classList.toggle('open');
+}
+
+function toggleComplete(id) {
+  completedLessons[id] = !completedLessons[id];
+  var numEl = document.getElementById('lnum-'+id);
+  var btnEl = document.getElementById('cbtn-'+id);
+  var liEl = document.getElementById('li-'+id);
+  if(numEl) {
+    numEl.className = 'lesson-num '+(completedLessons[id]?'done':'pending');
+    numEl.textContent = completedLessons[id]?'✓':id;
+  }
+  if(btnEl) {
+    btnEl.style.background = completedLessons[id]?'#374151':'var(--g)';
+    btnEl.textContent = completedLessons[id]?'✓ Completed — Mark Incomplete':'✅ Mark Day Complete';
+  }
+  updateDashboard();
+}
+
+// ── DASHBOARD UPDATE ──────────────────────────────────────────
+function updateDashboard() {
+  var total = 36;
+  var done = Object.values(completedLessons).filter(Boolean).length;
+  var pct = Math.round((done/total)*100);
+
+  var pt = document.getElementById('progress-text');
+  var mp = document.getElementById('main-progress');
+  var dc = document.getElementById('dash-completed');
+  if(pt) pt.textContent = done + ' / ' + total;
+  if(mp) mp.style.width = pct + '%';
+  if(dc) dc.textContent = done;
+
+  // Week bars
+  var weeks = [
+    {key:'w1',bar:'w1-bar',stat:'w1-status',count:7,offset:1},
+    {key:'w2',bar:'w2-bar',stat:'w2-status',count:7,offset:8},
+    {key:'w3',bar:'w3-bar',stat:'w3-status',count:7,offset:15},
+    {key:'w4',bar:'w4-bar',stat:'w4-status',count:9,offset:22},
+    {key:'w5',bar:'w5-bar',stat:'w5-status',count:6,offset:31}
+  ];
+  weeks.forEach(function(w){
+    var weekDone = 0;
+    for(var i=w.offset; i<w.offset+w.count; i++){
+      if(completedLessons[i]) weekDone++;
+    }
+    var el = document.getElementById(w.bar);
+    var st = document.getElementById(w.stat);
+    if(el) el.style.width = Math.round((weekDone/w.count)*100)+'%';
+    if(st) st.textContent = weekDone+'/'+w.count+' complete';
+  });
+
+  // Journal stats on dashboard
+  var wins = trades.filter(function(t){return t.result==='win';}).length;
+  var wr = trades.length>0?Math.round((wins/trades.length)*100):0;
+  var dt = document.getElementById('dash-trades');
+  var dw = document.getElementById('dash-winrate');
+  if(dt) dt.textContent = trades.length;
+  if(dw) dw.textContent = wr+'%';
+}
+
+// ── CALCULATOR ────────────────────────────────────────────────
+function calcUpdate() {
+  var acct = parseFloat(document.getElementById('c-acct').value)||0;
+  var risk = parseFloat(document.getElementById('c-risk').value)||0;
+  var entry = parseFloat(document.getElementById('c-entry').value)||0;
+  var stop = parseFloat(document.getElementById('c-stop').value)||0;
+  var target = parseFloat(document.getElementById('c-target').value)||0;
+
+  var riskAmt = acct * risk / 100;
+  var riskPerShare = Math.abs(entry - stop);
+  var posSize = riskPerShare > 0 ? Math.floor(riskAmt / riskPerShare) : 0;
+  var reward = Math.abs(target - entry);
+  var rr = riskPerShare > 0 ? (reward / riskPerShare).toFixed(2) : '0.00';
+  var profit = (posSize * reward).toFixed(2);
+
+  var rs = document.getElementById('r-shares');
+  var rr_el = document.getElementById('r-rr');
+  var rr_note = document.getElementById('r-rr-note');
+  var rl = document.getElementById('r-loss');
+  var rlp = document.getElementById('r-loss-pct');
+  var rp = document.getElementById('r-profit');
+
+  if(rs) rs.textContent = posSize;
+  if(rr_el) rr_el.textContent = '1:'+rr;
+  if(rr_note) rr_note.textContent = parseFloat(rr) >= 2 ? '✓ Good ratio' : '⚠️ Aim for 1:2 minimum';
+  if(rl) rl.textContent = '$'+riskAmt.toFixed(0);
+  if(rlp) rlp.textContent = risk+'% of account';
+  if(rp) rp.textContent = '$'+profit;
+}
+
+// ── JOURNAL ───────────────────────────────────────────────────
+function addTrade() {
+  var asset = document.getElementById('j-asset').value.trim().toUpperCase();
+  var entry = document.getElementById('j-entry').value;
+  if(!asset || !entry) { alert('Please enter at least Asset and Entry Price.'); return; }
+
+  var trade = {
+    id: Date.now(),
+    date: document.getElementById('j-date').value,
+    asset: asset,
+    dir: document.getElementById('j-dir').value,
+    entry: entry,
+    stop: document.getElementById('j-stop').value,
+    target: document.getElementById('j-target').value,
+    result: document.getElementById('j-result').value,
+    pnl: document.getElementById('j-pnl-input').value,
+    notes: document.getElementById('j-notes').value
+  };
+
+  trades.push(trade);
+  clearJournalForm();
+  renderJournal();
+  updateDashboard();
+}
+
+function deleteTrade(id) {
+  trades = trades.filter(function(t){ return t.id !== id; });
+  renderJournal();
+  updateDashboard();
+}
+
+function clearJournalForm() {
+  ['j-asset','j-entry','j-stop','j-target','j-pnl-input','j-notes'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  var rd = document.getElementById('j-result');
+  if(rd) rd.value = 'open';
+}
+
+function renderJournal() {
+  var wins = trades.filter(function(t){return t.result==='win';}).length;
+  var losses = trades.filter(function(t){return t.result==='loss';}).length;
+  var totalPnL = trades.reduce(function(s,t){return s+(parseFloat(t.pnl)||0);},0);
+  var wr = trades.length>0?Math.round((wins/trades.length)*100):0;
+
+  var jt=document.getElementById('j-total');
+  var jw=document.getElementById('j-wins');
+  var jl=document.getElementById('j-losses');
+  var jwr=document.getElementById('j-wr');
+  var jpnl=document.getElementById('j-pnl');
+  if(jt) jt.textContent = trades.length;
+  if(jw) jw.textContent = wins;
+  if(jl) jl.textContent = losses;
+  if(jwr) jwr.textContent = wr+'%';
+  if(jpnl) {
+    jpnl.textContent = '$'+totalPnL.toFixed(2);
+    jpnl.style.color = totalPnL >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+
+  var container = document.getElementById('j-trades');
+  if(!container) return;
+
+  if(trades.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#8a9080"><div style="font-size:40px;margin-bottom:10px">📝</div><div>No trades logged yet. Start journaling every trade!</div></div>';
+    return;
+  }
+
+  var html = '';
+  trades.slice().reverse().forEach(function(t){
+    var dirClass = t.dir==='long' ? 'badge-long' : 'badge-short';
+    var resClass = t.result==='win'?'badge-win':t.result==='loss'?'badge-loss':t.result==='be'?'badge-be':'badge-open';
+    var pnlColor = parseFloat(t.pnl)>=0 ? 'var(--green)' : 'var(--red)';
+
+    html += '<div class="trade-row">';
+    html += '<div style="font-weight:700;color:#f9fafb;min-width:60px">'+t.asset+'</div>';
+    html += '<div style="font-size:12px;color:#8a9080">'+t.date+'</div>';
+    html += '<span class="trade-badge '+dirClass+'">'+t.dir.toUpperCase()+'</span>';
+    if(t.entry) html += '<div style="font-size:13px;color:#e5e7eb">Entry: $'+t.entry+'</div>';
+    if(t.stop) html += '<div style="font-size:13px;color:#fca5a5">Stop: $'+t.stop+'</div>';
+    html += '<span class="trade-badge '+resClass+'">'+t.result.toUpperCase()+'</span>';
+    if(t.pnl) html += '<div style="font-weight:700;color:'+pnlColor+'">$'+t.pnl+'</div>';
+    if(t.notes) html += '<div style="font-size:12px;color:#8a9080;flex-basis:100%;margin-top:4px">'+t.notes+'</div>';
+    html += '<button onclick="deleteTrade('+t.id+')" style="margin-left:auto;background:none;color:#ef4444;font-size:13px;padding:4px 10px;border:1px solid #ef4444;border-radius:6px;cursor:pointer">✕</button>';
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+// ── GO-LIVE CHECKLIST ─────────────────────────────────────────
+function renderGoLive() {
+  var container = document.getElementById('gl-items');
+  if(!container) return;
+  var html = '';
+  goLiveItems.forEach(function(item, i){
+    var checked = goLiveChecked.indexOf(i) !== -1;
+    html += '<div class="go-live-item'+(checked?' live-checked':'')+'" onclick="toggleGoLive('+i+')">';
+    html += '<div style="width:28px;height:28px;border-radius:50%;background:'+(checked?'var(--g)':'#2a2a2a')+';color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(checked?'✓':(i+1))+'</div>';
+    html += '<span style="font-size:14px;font-weight:500;color:'+(checked?'#a7f3d0':'#d1d5db')+'">'+item+'</span>';
+    html += '</div>';
+  });
+  container.innerHTML = html;
+
+  var pct = Math.round((goLiveChecked.length/goLiveItems.length)*100);
+  var bar = document.getElementById('gl-bar');
+  var txt = document.getElementById('gl-text');
+  var ready = document.getElementById('gl-ready');
+  if(bar) bar.style.width = pct+'%';
+  if(txt) txt.textContent = goLiveChecked.length+' / '+goLiveItems.length;
+  if(ready) ready.style.display = goLiveChecked.length===goLiveItems.length?'block':'none';
+}
+
+function toggleGoLive(idx) {
+  var pos = goLiveChecked.indexOf(idx);
+  if(pos === -1) goLiveChecked.push(idx);
+  else goLiveChecked.splice(pos, 1);
+  renderGoLive();
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+window.addEventListener('load', function(){
+  // Set today's date in journal
+  var jdate = document.getElementById('j-date');
+  if(jdate) jdate.value = new Date().toISOString().split('T')[0];
+
+  // Render all lesson weeks
+  renderLessons('w1','w1-lessons');
+  renderLessons('w2','w2-lessons');
+  renderLessons('w3','w3-lessons');
+  renderLessons('w4','w4-lessons');
+  renderLessons('w5','w5-lessons');
+
+  // Render go-live checklist
+  renderGoLive();
+
+  // Initialize calculator
+  calcUpdate();
+
+  // Initialize journal
+  renderJournal();
+
+  // Dashboard
+  updateDashboard();
+});
 </script>
 </body>
 </html>
