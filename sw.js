@@ -2,9 +2,9 @@
 const CACHE_NAME = "trading-academy-cache-v1";
 
 const PRECACHE_URLS = [
-  "/",
-  "/index.html",
-  "/manifest.json"
+  "/trading-academy",
+  "/trading-academy/index.html",
+  "/trading-academy/manifest.json"
 ];
 
 self.addEventListener("install", (event) => {
