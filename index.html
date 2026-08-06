@@ -150,6 +150,10 @@ input,select,textarea{font-family:inherit;outline:none}
 /* FOOTER */
 .footer-note{text-align:center;color:#374151;font-size:11px;padding:24px 0}
 </style>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2D6A4F">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body>
 
@@ -896,6 +900,15 @@ window.addEventListener('load', function(){
   // Dashboard
   updateDashboard();
 });
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Service worker registered:', reg.scope))
+        .catch(err => console.log('Service worker registration failed:', err));
+    });
+  }
 </script>
 </body>
 </html>
